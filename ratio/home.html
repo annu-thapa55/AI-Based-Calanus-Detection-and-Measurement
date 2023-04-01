@@ -21,25 +21,25 @@
             }
         </style>
     </head>
-  <body>
-    <div class="inner">
-        <h1>CALANUS DETECTION AND SIZE ESTIMATION</h1>
-        <p>Bla bla bla</p>
-        <form action="home.html" method="POST">
-            <input type="file" id="input_image" accept = "image/*" /><br />
-            <p>Known mm/pixel ratio: <input type="text" name="ratio" id="ratio" /></p>
-            <p><button onclick="return navigate('ratio.html');">Find Ratio</button></p>
-            <p><input type="submit" name="submit" value="Run" onclick="alert('Not ready yet!');"/></p>
-        </form>
-    </div>
-    <script>
-        function navigate(page) {
-            window.location.href = page;
-            return false;
-        }
+    <body>
+        <div class="inner">
+            <h1>CALANUS DETECTION AND SIZE ESTIMATION</h1>
+            <p>Bla bla bla</p>
+            <form action="home.html" method="POST">
+                <input type="file" id="input_image" accept = "image/*" /><br />
+                <p>Known mm/pixel ratio: <input type="text" name="ratio" id="ratio" /></p>
+                <p><button onclick="return navigate('ratio.html');">Find Ratio</button></p>
+                <p><input type="submit" name="submit" value="Run" onclick="alert('Not ready yet!');"/></p>
+            </form>
+        </div>
+        <script>
+            function navigate(page) {
+                window.location.href = page;
+                return false;
+            }
 
-        var ratio = localStorage.getItem("ratio");
-        document.getElementById("ratio").value = ratio;
-    </script>
-</body>
+            var ratio = localStorage.getItem("ratio");
+            document.getElementById("ratio").value = ratio;
+        </script>
+    </body>
 </html>
