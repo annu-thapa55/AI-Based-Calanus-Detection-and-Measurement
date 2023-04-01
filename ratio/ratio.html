@@ -107,7 +107,7 @@
                 pin.x = mouseX - pin.width / 2;
                 pin.y = mouseY - pin.height;
 
-                // if two points are already saved, reset
+                // if two pins are already saved, reset
                 if (pins.length == 2) {
                     pins = [];
                 }
@@ -115,7 +115,7 @@
                 // add new pin
                 pins.push(pin);
 
-                // if two points are saved, calculate distance and rescale to original dimension
+                // if two pins are saved, calculate distance and rescale to original dimension
                 if (pins.length == 2) {
                     distance = (Math.abs(pins[0].x - pins[1].x)) * scale;
                 }
