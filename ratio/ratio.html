@@ -1,0 +1,167 @@
+<html>
+    <head>
+        <title>Calanus Detector and Measurer</title>
+        <style>
+            body {
+                background-color: blueviolet; 
+                font-family: sans-serif;
+                margin: 0;
+                padding: 0;
+                padding-top: 10px;
+                text-align: center;
+		    }
+
+            .inner {
+                width: 60%;
+                height: 100%;
+                background-color: white;
+                border: 0px;
+                padding: 30px;
+                margin: 0 auto;
+            }
+
+            canvas {
+                margin: auto;
+                display: block;
+            }
+
+            #canvasDiv {
+                padding: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="inner">
+            <h1>FIND RATIO</h1>
+            <p>Bla bla bla</p>
+            <input type="file" id="inputImage" accept = "image/*"><br /><br />
+            Known length (mm): <input type="text" id="knownLength"/>
+            <div id ="canvasDiv"><canvas id= "canvas" width="600" height="600"></canvas></div>
+            <button onclick="findRatio()">CALCULATE</button>
+        </div>
+        <script>
+            /*
+            *   TO DO: adjust program to handle non-square images
+            */
+            var inputImage = document.getElementById("inputImage");
+            inputImage.addEventListener("change", imageUpload); // add change event listener to image uploader 
+            var canvas = document.getElementById("canvas");  
+            var context = canvas.getContext("2d"); 
+            var image = new Image(); 
+            var scale = 1.0; 
+            var distance = 0;
+            var pins = [];
+            
+            var Pin = function () {
+                this.icon = new Image();
+                this.icon.src = "pin.png";
+                this.width = 20;
+                this.height = 30;
+                this.x = 0.0;
+                this.y = 0.0;
+            }
+
+            function imageUpload(event) {
+                if (event.target.files) {
+                    // get image file
+                    var imageFile = event.target.files[0]; 
+                    var reader = new FileReader();
+                    reader.readAsDataURL(imageFile);
+                    pins = []; // reset pins
+
+                    // wait to finish reading file
+                    reader.onloadend = function(event) {
+                        image.src = event.target.result; 
+
+                        // wait for image to load
+                        image.onload = function(event) {
+                            var height = image.height;
+
+                            // assumes image dimension is a square, TO BE UPDATED
+                            if (height > canvas.height) { 
+                                scale = height/canvas.height;
+                            }
+
+                            // add mouse click event listener to canvas
+                            canvas.addEventListener("mousedown", mouseClicked, false);
+
+                            // refresh 60 times a second to draw image and pins
+                            setInterval(draw, (1000 / 60));
+                        }
+                    }
+                }
+            }
+
+            function mouseClicked(mouse) {
+                // get mouse coordinates
+                var rect = canvas.getBoundingClientRect();
+                var mouseX = (mouse.x - rect.left);
+                var mouseY = (mouse.y - rect.top);
+
+                // place pin exactly where user clicks
+                var pin = new Pin();
+                pin.x = mouseX - pin.width / 2;
+                pin.y = mouseY - pin.height;
+
+                // if two points are already saved, reset
+                if (pins.length == 2) {
+                    pins = [];
+                }
+
+                // add new pin
+                pins.push(pin);
+
+                // if two points are saved, calculate distance and rescale to original dimension
+                if (pins.length == 2) {
+                    distance = (Math.abs(pins[0].x - pins[1].x)) * scale;
+                }
+            }
+
+            function draw() {
+                // clear canvas
+                context.fillStyle = "#000";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                // draw image on canvas
+                context.drawImage(image, 0, 0, canvas.height, canvas.width);
+
+                // draw pins on canvas
+                for (var i = 0; i < pins.length; i++) {
+                    var pinToDraw = pins[i];
+                    context.drawImage(pinToDraw.icon, pinToDraw.x, pinToDraw.y, pinToDraw.width, pinToDraw.height);
+                }
+            }
+
+            function findRatio() {
+                // extract known length in mm from input field
+                var knownLength = document.getElementById("knownLength").value;
+                knownLength = knownLength.replace(/\s/g,""); // remove any whitespace
+                var errorCount = 0;
+                
+                // check if field is empty or if value is not a number
+                if (knownLength.length == 0 || isNaN(knownLength)) {
+                    alert("Enter known length in mm.");
+                    errorCount++;
+                }
+
+                // check if the user has not yet placed two pins
+                if (distance < 1) {
+                    alert("Upload image and place two pins.");
+                    errorCount++;
+                }
+
+                // if input data is valid, calculate ratio
+                if (errorCount == 0) {
+                    var ratio = String(knownLength / distance);
+                    localStorage.setItem("ratio", ratio); // save in local storage
+                    navigate("home.html");                // go back to home page
+                } 
+            }
+
+            function navigate(page) {
+                window.location.href = page;
+                return false;
+            }
+        </script>
+    </body>
+</html>
