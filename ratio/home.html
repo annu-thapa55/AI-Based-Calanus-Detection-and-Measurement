@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>Calanus Detector and Measurer</title>
+        <style>
+            body {
+                background-color: blueviolet; 
+                font-family: sans-serif;
+                margin: 0;
+                padding: 0;
+                padding-top: 10px;
+                text-align: center;
+		    }
+
+            .inner {
+                width: 60%;
+                height: 100%;
+                background-color: white;
+                border: 0px;
+                padding: 30px;
+                margin: 0 auto;
+            }
+
+        </style>
+    </head>
+  <body>
+    <div class="inner">
+        <h1>CALANUS DETECTION AND SIZE ESTIMATION</h1>
+        <p>Bla bla bla</p>
+        <form action="home.html" method="POST">
+            <input type="file" id="input_image" accept = "image/*" /><br />
+            <p>Known mm/pixel ratio: <input type="text" name="ratio" id="ratio" /></p>
+            <p><button onclick="return navigate('ratio.html');">Find Ratio</button></p>
+            <p><input type="submit" name="submit" value="Run" onclick="alert('Not ready yet!');"/></p>
+        </form>
+    </div>
+
+    <script>
+        var navigate = function(page) {
+            window.location.href = page;
+            return false;
+        }
+
+        var cookie = localStorage.getItem("ratio");
+        document.getElementById("ratio").value = cookie;
+    </script>
+</body>
+</html>
