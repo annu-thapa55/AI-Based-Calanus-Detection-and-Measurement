@@ -153,7 +153,7 @@
 
                 // if input data is valid, calculate ratio
                 if (errorCount == 0) {
-                    var ratio = String(knownLength / distance);
+                    var ratio = knownLength / distance;
                     localStorage.setItem("ratio", ratio); // save in local storage
                     navigate("home.html");                // go back to home page
                 } 
