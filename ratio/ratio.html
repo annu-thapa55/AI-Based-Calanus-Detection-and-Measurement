@@ -41,7 +41,9 @@
         </div>
         <script>
             /*
-            *   TO DO: adjust program to handle non-square images
+            *   TO DO: 
+	    *	- handle non-square images
+	    *   - handle images that are smaller than canvas
             */
             var inputImage = document.getElementById("inputImage");
             inputImage.addEventListener("change", imageUpload); // add change event listener to image uploader 
@@ -79,6 +81,7 @@
 
                             // sets the scale to later scale distance to original image dimensions
                             // assumes image is a square, TO BE UPDATED
+			    // assumes image is larger than canvas, TO BE UPDATED
                             if (height > canvas.height) { 
                                 scale = height/canvas.height;
                             }
