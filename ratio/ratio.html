@@ -99,8 +99,8 @@
             function mouseClicked(mouse) {
                 // get mouse coordinates
                 var rect = canvas.getBoundingClientRect();
-                var mouseX = (mouse.x - rect.left);
-                var mouseY = (mouse.y - rect.top);
+                var mouseX = mouse.x - rect.left;
+                var mouseY = mouse.y - rect.top;
 
                 // place pin exactly where user clicks
                 var pin = new Pin();
