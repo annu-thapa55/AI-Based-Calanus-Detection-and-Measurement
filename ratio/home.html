@@ -9,7 +9,7 @@
                 padding: 0;
                 padding-top: 10px;
                 text-align: center;
-		    }
+            }
 
             .inner {
                 width: 60%;
@@ -19,7 +19,6 @@
                 padding: 30px;
                 margin: 0 auto;
             }
-
         </style>
     </head>
   <body>
@@ -33,15 +32,14 @@
             <p><input type="submit" name="submit" value="Run" onclick="alert('Not ready yet!');"/></p>
         </form>
     </div>
-
     <script>
-        var navigate = function(page) {
+        function navigate(page) {
             window.location.href = page;
             return false;
         }
 
-        var cookie = localStorage.getItem("ratio");
-        document.getElementById("ratio").value = cookie;
+        var ratio = localStorage.getItem("ratio");
+        document.getElementById("ratio").value = ratio;
     </script>
 </body>
 </html>
