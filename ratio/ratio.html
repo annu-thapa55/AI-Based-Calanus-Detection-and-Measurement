@@ -77,7 +77,8 @@
                         image.onload = function(event) {
                             var height = image.height;
 
-                            // assumes image dimension is a square, TO BE UPDATED
+                            // sets the scale to later scale distance to original image dimensions
+                            // assumes image is a square, TO BE UPDATED
                             if (height > canvas.height) { 
                                 scale = height/canvas.height;
                             }
