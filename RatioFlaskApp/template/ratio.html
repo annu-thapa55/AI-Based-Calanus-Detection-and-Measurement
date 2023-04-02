@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculate Ratio</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <br>
+  <button id="send-btn">Calculate Ratio</button>
+
+  <!-- Ignore var1 var2 - just for testing json responses -->
+  Var1<input type="text" id = "var2"></input>
+  Var2<input type="text" id = "var1"></input>
+  <div id = "id"></div>
+
+  <script>
+    $(document).ready(function() {
+
+      var canvas = document.getElementById('canvas');
+      var var1_data = document.getElementById("var1").value
+      var scale = '{{scale}}';
+      console.log('scale:'+ scale)
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+    
+      img.src = '{{image_url}}'
+      console.log("img == ", img.src)
+      var startX, startY, endX, endY, isDragging = false;
+      canvas.addEventListener('mousedown', function(e) {
+        startX = e.clientX - canvas.offsetLeft;
+        startY = e.clientY - canvas.offsetTop;
+        isDragging = true;
+      });
+      canvas.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+          endX = e.clientX - canvas.offsetLeft;
+          endY = e.clientY - canvas.offsetTop;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+          ctx.fillRect(startX, startY, endX - startX, endY - startY);
+        }
+      });
+      canvas.addEventListener('mouseup', function(e) {
+        isDragging = false;
+      });
+      $('#send-btn').on('click', function() {
+        var region = ctx.getImageData(startX, startY, endX - startX, endY - startY);
+        var ratio = scale/region.width
+        
+        console.log("test"+ var1_data)
+         var ratio_data = {
+           'data': ratio,
+           'var1': var1_data
+         };
+        var para = document.createElement("p")
+        var div = document.getElementById("id")
+        para.innerHTML = "the calculated ratio is " + ratio
+        div.appendChild(para)
+
+        $.ajax({
+          url: 'send_to_opencv',
+          type: 'POST',
+          data: JSON.stringify(ratio_data),
+          contentType: 'application/json; charset=utf-8',
+          dataType: 'json',
+          success: function(response) {
+            console.log('Response:', response);
+          },
+          error: function(xhr, status, error) {
+            console.log('Error:', error);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

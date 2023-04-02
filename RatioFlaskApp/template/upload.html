@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Upload Image</title>
+  </head>
+  <body>
+    <h1>Upload Image</h1>
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+      <input type="file" name="file">
+      <br><br>
+      Enter Scale (in mm): <input type="number" id = "scale" name = "scale" min = '1' max ="1000" required>
+      <input type="submit" value="Upload">
+    </form>
+  </body>
+</html>
