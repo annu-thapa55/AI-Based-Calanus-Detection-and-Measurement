@@ -61,32 +61,32 @@ def contours(cropImg,x,y):
 
       #find contours
       contours, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-      contous_img = cv2.drawContours(edged, contours, -1, 100, 3)
 
       #find rotated boxes
-      maxAreaContour = max(contours, key=cv2.contourArea)
-      cnt = maxAreaContour
-      # compute rotated rectangle (minimum area)
-      rect = cv2.minAreaRect(cnt)
-      (ox, oy), (width, height), angle = rect
-      #get coordinates
-      if width and height >= 10:
-            if width >= height:
-                  if width/height >= 1.5:
-                        box = cv2.boxPoints(rect)
-                        box = np.int0(box)
-                        boxes_bol = True
-                        box[:, 1] = box[:, 1] + y
-                        box[:, 0] = box[:, 0] + x
-            elif width < height:
-                  if height/width >= 1.5:
-                        box = cv2.boxPoints(rect)
-                        box = np.int0(box)
-                        boxes_bol = True
-                        box[:, 1] = box[:, 1] + y
-                        box[:, 0] = box[:, 0] + x
-      else:
-            boxes_bol = False
+      if len(contours) > 0:
+            maxAreaContour = max(contours, key=cv2.contourArea)
+            cnt = maxAreaContour
+            # compute rotated rectangle (minimum area)
+            rect = cv2.minAreaRect(cnt)
+            (ox, oy), (width, height), angle = rect
+            #get coordinates
+            if width and height >= 10:
+                  if width >= height:
+                        if width/height >= 1.5:
+                              box = cv2.boxPoints(rect)
+                              box = np.int0(box)
+                              boxes_bol = True
+                              box[:, 1] = box[:, 1] + y
+                              box[:, 0] = box[:, 0] + x
+                  elif width < height:
+                        if height/width >= 1.5:
+                              box = cv2.boxPoints(rect)
+                              box = np.int0(box)
+                              boxes_bol = True
+                              box[:, 1] = box[:, 1] + y
+                              box[:, 0] = box[:, 0] + x
+            else:
+                  boxes_bol = False
       return box, boxes_bol
 
 def post_process(input_image, outputs):
@@ -155,6 +155,7 @@ if __name__ == '__main__':
       # Load image.
       directory = "/Users/jackyan_1/PycharmProjects/plankton/test/res/images"
       for file in os.listdir(directory):
+
             filename = os.fsdecode(file)
             print(filename)
             if filename.endswith(".jpg") or filename.endswith(".jpeg"):
@@ -169,8 +170,9 @@ if __name__ == '__main__':
                   t, _ = net.getPerfProfile()
                   label = 'Inference time: %.2f ms' % (t * 1000.0 / cv2.getTickFrequency())
                   cv2.putText(img, label, (20, 40), FONT_FACE, FONT_SCALE, (0, 0, 255), THICKNESS, cv2.LINE_AA)
-                  cv2.imshow('Output', img)
-                  cv2.waitKey(0)
+                  cv2.imwrite(os.path.join("/Users/jackyan_1/PycharmProjects/plankton/test/detect_measure_testing/results", filename), img)
+                  # cv2.imshow('Output', img)
+                  # cv2.waitKey(0)
       print("done")
       print(input(":"))
 
