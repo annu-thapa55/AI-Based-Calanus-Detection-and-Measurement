@@ -5,21 +5,24 @@ import cv2
 import numpy as np
 # global var
 root = os.getcwd()
-weights_path = os.path.join(root,'model','best.onnx')
+weights_path = os.path.join(root,'model','best-2.onnx')
 classes_path = os.path.join(root,'model','coco.txt')
 file_name_list_raw = []
 file_name_list_split = []
 length_list = []
-windowSize = 2400
+pixel_mm_ratio = 1
+window_size = 2400
+lap_window_size = 1200
 net = cv2.dnn.readNet(weights_path)
 with open(classes_path, 'rt') as f:
     classes = f.read().rstrip('\n').split('\n')
+buffer_area = 0
 ## constants
 INPUT_WIDTH = 640
 INPUT_HEIGHT = 640
-SCORE_THRESHOLD = 0.75
+SCORE_THRESHOLD = 0.85
 NMS_THRESHOLD = 0.15
-CONFIDENCE_THRESHOLD = 0.7
+CONFIDENCE_THRESHOLD = 0.85
 ## Text parameters.
 FONT_FACE = cv2.FONT_HERSHEY_SIMPLEX
 FONT_SCALE = 0.7
@@ -37,9 +40,9 @@ def draw_label(im, label, x, y):
     text_size = cv2.getTextSize(label, FONT_FACE, FONT_SCALE, THICKNESS)
     dim, baseline = text_size[0], text_size[1]
     # Use text size to create a BLACK rectangle.
-    cv2.rectangle(im, (x,y), (x + dim[0], y + dim[1] + baseline), (0,0,0), cv2.FILLED);
+    # cv2.rectangle(im, (x,y), (x + dim[0], y + dim[1] + baseline), (0,0,0), cv2.FILLED);
     # Display text inside the rectangle.
-    cv2.putText(im, label, (x, y + dim[1]), FONT_FACE, FONT_SCALE, YELLOW, THICKNESS, cv2.LINE_AA)
+    cv2.putText(im, label, (x + 20, y + 20 + dim[1]), FONT_FACE, FONT_SCALE, YELLOW, THICKNESS, cv2.LINE_AA)
 #L2 functions
 def file_name_reader(folder,para):
     if para == "raw":
@@ -60,44 +63,44 @@ def folder_maker(name_list):
         new_path = os.path.join(root,'split',str(i))
         os.makedirs(new_path, exist_ok=True)
 
-def lappingRegionCalculator(length):
-    lappingThres = int(windowSize * 0.4)
-    # n is the number of windows and x is the length or width(depends on which dimension are you calculating) of the overlapping region.
-    for i in (length[0], length[1]):
-        # [0] is row, [1] is column
-        if i == length[0]:
-            nR = i // windowSize
-            while True:
-                xR = math.ceil((windowSize * nR - i) / (nR - 1))
-                if xR > lappingThres:
-                    break
-                else:
-                    nR = nR + 1
-        else:
-            nC = i // windowSize
-            while True:
-                xC = math.ceil((windowSize * nC - i) / (nC - 1))
-                if xC > lappingThres:
-                    break
-                else:
-                    nC = nC + 1
-    return nR, xR, nC, xC
+def lappingRegionCalculator(image_shape):# image_shape is a list, [0] is row, [1] is column
+    # how many vertical windows
+    window_verti = int(image_shape[0]//window_size)
+    # how many horizontal windows
+    window_hori = int(image_shape[1]//window_size)
 
-def slidingWindow(img_name,img, folder, nR, xR, nC, xC):
-    for r in range(nR):
-        startR = windowSize * r - xR * r
-        for c in range(nC):
-            startC = windowSize * c - xC * c
-            cv2.imwrite(os.path.join(folder, img_name, 'img_{}_{}.jpg'.format(startR,startC)),img[startR: startR + windowSize, startC: startC + windowSize])
+    return window_verti, window_hori
+
+def slidingWindow(image_name, image, folder, window_verti, window_hori):
+    # big image
+    for row in range(window_verti):
+        start_row = window_size * row
+        for col in range(window_hori):
+            # slice big image
+            start_col = window_size * col
+            cv2.imwrite(os.path.join(folder, image_name, 'img_{}_{}.jpg'.format(start_row, start_col)), image[start_row: start_row + window_size, start_col: start_col + window_size])
+    # lappping horizontal
+    for row in range(window_verti):
+        start_row = window_size * row
+        for col in range(1, window_hori):
+            start_col = window_size * col
+            start_col_lap = start_col - lap_window_size
+            cv2.imwrite(os.path.join(folder, image_name, 'img_{}_{}.jpg'.format(start_row, start_col_lap)), image[start_row: start_row + window_size, start_col_lap: start_col_lap + lap_window_size*2])
+    # lapping vertical
+    for row in range(1,window_verti):
+        start_row = window_size * row
+        start_row_lap = start_row - lap_window_size
+        for col in range(window_hori):
+            start_col = window_size * col
+            cv2.imwrite(os.path.join(folder, image_name, 'img_{}_{}.jpg'.format(start_row_lap, start_col)), image[start_row_lap: start_row_lap + lap_window_size*2, start_col: start_col + window_size])
+
 
 
 def contours(cropImg, x, y):
-    box = 0
-    boxes_bol = False
     # pre processing
     gImg = cv2.cvtColor(cropImg, cv2.COLOR_BGR2GRAY)
-    imgInRange = cv2.inRange(gImg, 40, 90)
-    ret1, th1 = cv2.threshold(imgInRange, 45, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    th1 = cv2.inRange(gImg, 30, 90)
+    # ret1, th1 = cv2.threshold(imgInRange, 45, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     edged = th1
     # find contours
     contour, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -126,19 +129,19 @@ def YOLO_post(detections,r):
         class_id = np.argmax(classes_scores)
         #  Continue if the class score is above threshold.
         if (classes_scores[class_id] > SCORE_THRESHOLD):
-            confidences.append(confidence)
-            class_ids.append(class_id)
+            # confidences.append(confidence)
+            # class_ids.append(class_id)
             # centre point, not the original point
             cx, cy, w, h = row[0], row[1], row[2], row[3] # return these values
         else:
             vali = False
-            cx, cy, w, h = 0,0,0,0
+            cx, cy, w, h, class_id = 0, 0, 0, 0, 0
     else:
         vali = False
-        cx, cy, w, h = 0, 0, 0, 0
-    return cx, cy, w, h,vali
+        cx, cy, w, h, class_id = 0, 0, 0, 0, 0
+    return cx, cy, w, h, vali, confidence, class_id
 
-def coordinates_calculator(image_name,input_image, cx, cy, w, h):
+def coordinates_calculator(image_name,input_image, cx, cy, w, h, confidence, class_id):
     image_height, image_width = input_image.shape[:2]
     # Resizing factor. belongs to calculator
     x_factor = image_width / INPUT_WIDTH
@@ -147,14 +150,18 @@ def coordinates_calculator(image_name,input_image, cx, cy, w, h):
     top = int((cy - h / 2) * y_factor)
     width = int(w * x_factor)
     height = int(h * y_factor)
-    """I need recalculate coordinates here to satisfy the merge method, merge all images before run the NMS method."""
-    #read image file name and get para
-    left_para = int(os.path.splitext(image_name)[0].split('_')[2])
-    top_para = int(os.path.splitext(image_name)[0].split('_')[1])
-    left = left + left_para #column. add second para of image name
-    top = top + top_para #row. add first para of image name
-    box = np.array([left, top, width, height])
-    boxes.append(box)
+    if left and top != 0:
+        if left + width <= window_size - buffer_area and top + height <= window_size - buffer_area:
+            """I need recalculate coordinates here to satisfy the merge method, merge all images before run the NMS method."""
+            #read image file name and get para
+            left_para = int(os.path.splitext(image_name)[0].split('_')[2])
+            top_para = int(os.path.splitext(image_name)[0].split('_')[1])
+            left = left + left_para #column. add second para of image name
+            top = top + top_para #row. add first para of image name
+            box = np.array([left, top, width, height])
+            boxes.append(box)
+            confidences.append(confidence)
+            class_ids.append(class_id)
 
 def crop(i, raw_image):
     box = boxes[i]
@@ -170,6 +177,7 @@ def crop(i, raw_image):
     return cropImg, left, top
 
 def circle(raw_image, i, left, top, contour):
+    boxes_bol = False
     # find rotated boxes
     if len(contour) > 0:
         maxAreaContour = max(contour, key=cv2.contourArea)
@@ -187,24 +195,26 @@ def circle(raw_image, i, left, top, contour):
     else:
         center = 0
         radius = 0
-        boxes_bol = False
     if boxes_bol == True:
         # Draw bounding box.
-        output_image = cv2.circle(raw_image, center, radius, BLUE, 3 * THICKNESS)
+        output_image = cv2.circle(raw_image, center, radius, BLUE, 1 * THICKNESS)
         # Class label.
-        label = "{}:{:.2f}, L:{}".format(classes[class_ids[i]], confidences[i], radius * 2)
+        # label = "{}:{:.2f}, L:{}".format(classes[class_ids[i]], confidences[i], radius * 2)
+        label = "{}".format(i)
         # Draw label.
         draw_label(output_image, label, left, top)
-        length_list.append(radius*2)
+        length_list.append([(radius*2)/pixel_mm_ratio, i])
     return output_image
 
-def visualizing(output_image,image_raw_name):
-    cv2.imwrite(os.path.join(root,'result',image_raw_name), output_image)
+def visualizing(output_image,raw_image_name):
+    # name = os.path.splitext(raw_image_name)[0]+'_result'+'.jpg'
+    cv2.imwrite(os.path.join(root,'result',raw_image_name), output_image)
 
-def textfile(length_list,image_raw_name):
-    text_file_path = os.path.join(root,'result', os.path.splitext(image_raw_name)[0]+'_result'+'.txt')
+def textfile(length_list,raw_image_name):
+    text_file_path = os.path.join(root,'result', os.path.splitext(raw_image_name)[0]+'_result'+'.txt')
     file = open(text_file_path, 'w+', encoding='UTF8')
     for length in length_list:
+        length = ",".join(map(str, length))
         file.write(str(length) + os.linesep)
     file.close()
 
@@ -220,16 +230,16 @@ def image_pre():
         folder_path_split = os.path.join(root,'split')
         image_raw = cv2.imread(os.path.join(folder_path_raw,image_raw_name))
         if image_raw.shape[0] and image_raw.shape[1] != 2400:
-            nR, xR, nC, xC = lappingRegionCalculator(image_raw.shape)
-            slidingWindow(image_raw_name, image_raw, folder_path_split, nR, xR, nC, xC)
+            window_verti, window_hori = lappingRegionCalculator(image_raw.shape)
+            slidingWindow(image_raw_name, image_raw, folder_path_split, window_verti, window_hori)
         else:
             cv2.imwrite(os.path.join(root, 'split', image_raw_name, 'img_0_0.jpg'), image_raw)
 def detect(split_image_name,split_image):#split image is in the solit folder
     detections = YOLO_pre(split_image)
     for r in range(detections[0].shape[1]):
-        cx, cy, w, h, vali = YOLO_post(detections,r)
+        cx, cy, w, h, vali, confidence, class_id = YOLO_post(detections,r)
         if vali:
-            coordinates_calculator(split_image_name, split_image, cx, cy, w, h)
+            coordinates_calculator(split_image_name, split_image, cx, cy, w, h, confidence, class_id)
     indices = cv2.dnn.NMSBoxes(boxes, confidences, CONFIDENCE_THRESHOLD, NMS_THRESHOLD)
     return indices
 def measure(raw_image, indices):# need indices, for one raw image
@@ -247,25 +257,26 @@ def file_image_output(output_image):# for one raw image
     # visualise image output
     # cv2.imshow('test', output_image)
     # cv2.waitKey(0)
-    visualizing(output_image,image_raw_name)
+    visualizing(output_image,raw_image_name)
     # generate text file
-    textfile(length_list, image_raw_name)
+    textfile(length_list, raw_image_name)
 # main program
 """call L1 functions one by one"""
-if __name__ == '__main__':
-    dir_init()
-    image_pre()
-    for image_raw_name in file_name_list_raw:# first loop. raw
-        print(image_raw_name)
-        raw_image = cv2.imread(os.path.join(root,'raw',image_raw_name))
-        boxes = []
-        confidences = []
-        class_ids = []
-        file_name_reader(image_raw_name, "split")
-        for split_image_name in file_name_list_split:# second loop. split
-            split_image = cv2.imread(os.path.join(root,'split',image_raw_name,split_image_name))
-            indices = detect(split_image_name,split_image)# loop ends here, next function runs on raw image
-        output_image = measure(raw_image, indices)
-        file_image_output(output_image)
 
+#test
+dir_init()
+image_pre()
+for raw_image_name in file_name_list_raw:# first loop. raw
+    raw_image = cv2.imread(os.path.join(root,'raw',raw_image_name))
+    boxes = []
+    confidences = []
+    class_ids = []
+    file_name_reader(raw_image_name, "split")
+    for split_image_name in file_name_list_split:# second loop. split
+        split_image = cv2.imread(os.path.join(root,'split',raw_image_name,split_image_name))
+        indices = detect(split_image_name,split_image)# loop ends here, next function runs on raw image
+    output_image = measure(raw_image, indices)
+    # cv2.imshow('test',output_image)
+    # cv2.waitKey(0)
+    file_image_output(output_image)
 
