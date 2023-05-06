@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 # global var
 root = os.getcwd()
-weights_path = os.path.join(root,'model','best-2.onnx')
+weights_path = os.path.join(root,'model','best.onnx')
 classes_path = os.path.join(root,'model','coco.txt')
 file_name_list_raw = []
 file_name_list_split = []
