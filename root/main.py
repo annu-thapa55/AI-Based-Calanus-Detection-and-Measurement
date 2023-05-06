@@ -203,7 +203,7 @@ def circle(raw_image, i, left, top, contour):
         label = "{}".format(i)
         # Draw label.
         draw_label(output_image, label, left, top)
-        length_list.append([(radius*2)/pixel_mm_ratio, i])
+        length_list.append([(radius*2)*pixel_mm_ratio, i])
     return output_image
 
 def visualizing(output_image,raw_image_name):
