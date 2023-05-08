@@ -13,7 +13,7 @@
 
             .inner {
                 width: 60%;
-                height: 100%;
+                /*height: 100%;*/
                 background-color: white;
                 border: 0px;
                 padding: 30px;
@@ -35,25 +35,26 @@
             <h1>FIND RATIO</h1>
             <p>Bla bla bla</p>
             <input type="file" id="inputImage" accept = "image/*"><br /><br />
-            Known length (mm): <input type="text" id="knownLength"/>
-            <div id ="canvasDiv"><canvas id="canvas" width="600" height="600"></canvas></div>
+            Known length (mm): <input type="text" id="knownLength"/><br/><br/>
             <button onclick="findRatio()">CALCULATE</button>
+            <div id ="canvasDiv"><canvas id="canvas"></canvas></div>
+            <div id="distance"></div>
         </div>
         <script>
-            /*
-            *   TO DO: 
-	    *	- handle non-square images
-	    *   - handle images that are smaller than canvas
-	    *   - optional: handle vertical length and length of oriented objects
-            */
-            var inputImage = document.getElementById("inputImage");
-            inputImage.addEventListener("change", imageUpload); // add change event listener to image uploader 
+            const maxWidth = 600;
+            const maxImageSize = 2; // MB
+
+            var scale = 1.0;
+            var distance = 0;
             var canvas = document.getElementById("canvas");  
             var context = canvas.getContext("2d"); 
+            var canvasCopy = document.createElement("canvas");
+            var contextCopy = canvasCopy.getContext("2d");
+            var e = document.getElementById("distance");
             var image = new Image(); 
-            var scale = 1.0; 
-            var distance = 0;
             var pins = [];
+            var inputImage = document.getElementById("inputImage");
+            inputImage.addEventListener("change", imageUpload); // add change event listener to image uploader 
             
             var Pin = function () {
                 this.icon = new Image();
@@ -66,32 +67,45 @@
 
             function imageUpload(event) {
                 if (event.target.files) {
+                    // reset displayed distance
+                    e.innerHTML = "";
+
                     // get image file
                     var imageFile = event.target.files[0]; 
                     var reader = new FileReader();
                     reader.readAsDataURL(imageFile);
                     pins = []; // reset pins
+                    
+                    var imageSize = imageFile.size / 1000000; // MB
 
-                    // wait to finish reading file
-                    reader.onloadend = function(event) {
-                        image.src = event.target.result; 
+                    // limit file size
+                    if (imageSize > maxImageSize) {
+                        alert("Image exceeds maximum file size " + maxImageSize + "MB");
+                    }
 
-                        // wait for image to load
-                        image.onload = function() {
-                            var height = image.height;
+                    else {
+                        // wait to finish reading file
+                        reader.onloadend = function(event) {
+                            image.src = event.target.result; 
 
-                            // sets the scale to later scale distance to original image dimensions
-                            // assumes image is a square, TO BE UPDATED
-			    // assumes image is larger than canvas, TO BE UPDATED
-                            if (height > canvas.height) { 
-                                scale = height/canvas.height;
+                            // wait for image to load
+                            image.onload = function() {
+                                // if image width is larger than the specified max, downscale
+                                if (image.width > maxWidth) {
+                                    scale = maxWidth/image.width;
+                                }
+
+                                canvasCopy.width = image.width;
+                                canvasCopy.height = image.height;
+                                canvas.width = image.width * scale;
+                                canvas.height = image.height * scale;
+
+                                // add mouse click event listener to canvas
+                                canvas.addEventListener("mousedown", mouseClicked, false);
+
+                                // refresh 60 times a second to draw image and pins
+                                setInterval(draw, (1000 / 60));
                             }
-
-                            // add mouse click event listener to canvas
-                            canvas.addEventListener("mousedown", mouseClicked, false);
-
-                            // refresh 60 times a second to draw image and pins
-                            setInterval(draw, (1000 / 60));
                         }
                     }
                 }
@@ -111,14 +125,18 @@
                 // if two pins are already saved, reset
                 if (pins.length == 2) {
                     pins = [];
+                    e.innerHTML = "";
                 }
 
                 // add new pin
                 pins.push(pin);
 
-                // if two pins are saved, calculate distance and rescale to original dimension
+                // if two pins are saved, calculate distance rescaled to original dimension
                 if (pins.length == 2) {
-                    distance = (Math.abs(pins[0].x - pins[1].x)) * scale;
+                    x_distance =  (Math.abs(pins[0].x - pins[1].x)) / scale;
+                    y_distance = (Math.abs(pins[0].y - pins[1].y)) / scale;
+                    distance = Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2));
+                    e.innerHTML = "Distance (pixels): " + distance.toFixed(2);;
                 }
             }
 
@@ -128,7 +146,8 @@
                 context.fillRect(0, 0, canvas.width, canvas.height);
 
                 // draw image on canvas
-                context.drawImage(image, 0, 0, canvas.height, canvas.width);
+                contextCopy.drawImage(image, 0, 0);
+                context.drawImage(canvasCopy, 0, 0, canvasCopy.width, canvasCopy.height, 0, 0, canvas.width, canvas.height);
 
                 // draw pins on canvas
                 for (var i = 0; i < pins.length; i++) {
@@ -159,11 +178,15 @@
                 if (errorCount == 0) {
                     var ratio = knownLength / distance;
                     localStorage.setItem("ratio", ratio); // save in local storage
-                    //navigate("index.html");                // go back to home page
+                    //navigate("home.html");                // go back to home page
                     window.location.href="{{ url_for('homepage')}}";
                 } 
             }
 
+            function navigate(page) {
+                window.location.href = page;
+                return false;
+            }
         </script>
     </body>
 </html>

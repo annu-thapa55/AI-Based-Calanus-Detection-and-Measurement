@@ -27,20 +27,29 @@
     <body>
         <div class="inner">
             <h1>CALANUS DETECTION AND SIZE ESTIMATION</h1>
-            <p>Bla bla bla</p>
-            <form action="{{url_for('calculateRatio')}}" method="POST">
-                <input type="file" id="input_image" accept = "image/*" /><br />
+            <form action="{{url_for('calanusImageUpload')}}" method="POST" enctype="multipart/form-data">
                 <p>Known mm/pixel ratio: <input type="text" name="ratio" id="ratio" />
-                <!--<button onclick="return navigate('ratio.html');">Find Ratio</button> </p>-->
-                <button onclick="window.location.href='{{ url_for('calculateRatio')}}';">Find Ratio</button> </p>
-                <p><input type="submit" name="submit" value="Run" onclick="alert('Not ready yet!');"/></p>
+                <input type="submit" name="submit" value="Find Ratio">
+                <br/><br/>
+                <input type="file" id="input_image" name = "rawCalanusImage" accept = "image/*" /><br />
+                <p><input type="submit" name="submit" value="Run" /></p>
             </form>
         </div>
         <script>
             function navigate(page) 
             {
-                window.location.href = page;
+                window.location.href = url_for(page);
                 return false;
+            }
+
+            var ratio = localStorage.getItem("ratio");
+            document.getElementById("ratio").value = ratio;
+        </script>
+
+        <script>
+            function findRatio() 
+            {
+                document.getElementById("ratio").value = ratio;
             }
 
             var ratio = localStorage.getItem("ratio");
