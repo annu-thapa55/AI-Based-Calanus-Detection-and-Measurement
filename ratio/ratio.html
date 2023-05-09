@@ -174,7 +174,7 @@
 
                 // if input data is valid, calculate ratio
                 if (errorCount == 0) {
-                    var ratio = knownLength / distance;
+                    var ratio = (knownLength / distance).toFixed(6); // round to 6 decimals
                     localStorage.setItem("ratio", ratio); // save in local storage
                     navigate("home.html");                // go back to home page
                 } 
