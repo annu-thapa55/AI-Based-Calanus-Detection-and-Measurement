@@ -26,7 +26,6 @@ app.secret_key = 'calanus'
 def clearFolders():
     rawPath= os.path.join(app.config['BACKEND_FOLDER'], 'raw')
     resultPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
-    splitPath = os.path.join(app.config['BACKEND_FOLDER'], 'split')
 
     #deleting contents of "raw" folder 
     for filename in os.listdir(rawPath): 
@@ -49,17 +48,7 @@ def clearFolders():
                  shutil.rmtree(filePath)   
         except Exception as e:  
             print(f"Error deleting {filePath}: {e}")
-    
-    #deleting contnets of "split" folder
-    for filename in os.listdir(splitPath): 
-        filePath = os.path.join(splitPath, filename)  
-        try:
-            if os.path.isfile(filePath):
-                os.remove(filePath)  
-            elif os.path.isdir(filePath):  
-                shutil.rmtree(filePath)  
-        except Exception as e:  
-            print(f"Error deleting {filePath}: {e}")
+
     
     #deleting Results.zip 
     zipPath = "Results.zip"
@@ -88,17 +77,22 @@ def calanusImageUpload():
         
         #Functionality of "Run" button
         elif request.form['submit'] =='Run':
-            #uploaded image 
-            imgUploadedRaw = request.files['rawCalanusImage'] 
-            #Extracting uploaded data file name
-            imgFilename = secure_filename(imgUploadedRaw.filename)
 
+            #Getting list of uploaded files
+            uploadedRawImgs = request.files.getlist("rawCalanusImage")
+
+            #Iterating thrugh each file in the file list and saving them in "raw" folder
+
+            for imgFile in uploadedRawImgs:
+                #Extracting uploaded data file name
+                imgFilename = secure_filename(imgFile.filename)
+
+                #Uploading file to the "raw" folder inside "static" folder
+                imgFile.save(os.path.join(app.config['UPLOAD_FOLDER'], imgFilename))
+            
             #Saving the value of calculated ratio
             calculatedRatio = request.form['ratio']
-           
-            #Uploading file to the "raw" folder inside "static" folder
-            imgUploadedRaw.save(os.path.join(app.config['UPLOAD_FOLDER'], imgFilename))
-            
+
             #Running Backend functionalities by running main.py and passing calculatedRatio value to main.py
             backend_path = os.path.join(app.config['BACKEND_FOLDER'], 'main.py')
             subprocess.run(["python", backend_path, calculatedRatio])  

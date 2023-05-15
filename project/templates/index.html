@@ -2,38 +2,80 @@
 <html>
     <head>
         <title>Calanus Detector and Measurer</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
         <style>
-            body 
-            {
-                background-color: blueviolet; 
-                font-family: sans-serif;
-                margin: 0;
-                padding: 0;
-                padding-top: 10px;
-                text-align: center;
+            .navheader
+                {
+                    color: white;
+                    font-weight: bold;
+                    font-size: 30px;
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+                }
+            .container
+                {
+                padding-top: 100px;
+                padding-left: 200px;
+                padding-right: 200px;
             }
-
-            .inner 
-            {
-                width: 60%;
-                height: 100%;
-                background-color: white;
-                border: 0px;
-                padding: 30px;
-                margin: 0 auto;
+            .card{
+                border: #89CFF0;
+                border-width: 2px;
+            }
+            .text-color{
+                color: #89CFF0;
+                font-size: 20px;
+            }
+            .btn-primary{
+                background-color: #89CFF0;
+                border: #89CFF0;
+            }
+            .float-right{
+                text-align: right;
+            }
+            .card-title{
+                color: #89CFF0;
+                font-weight: bold;
+                font-size: 25px;
             }
         </style>
     </head>
     <body>
-        <div class="inner">
-            <h1>CALANUS DETECTION AND SIZE ESTIMATION</h1>
+        <nav class="navbar navbar-expand-lg sticky-top" data-bs-theme="dark" style="background-color: #89CFF0; padding-left: 20px">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="/static/Images/My project.png" alt="Bootstrap" width="50" height="80">
+                    &nbsp; <span class="navheader">Calanus Detection and Measurement System</span>
+                </a>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+            <div class="card-body">
+            <h5 class="card-title">Calanus Detection and Size Estimation</h5>
             <form action="{{url_for('calanusImageUpload')}}" method="POST" enctype="multipart/form-data">
-                <p>Known mm/pixel ratio: <input type="text" name="ratio" id="ratio" />
-                <input type="submit" name="submit" value="Find Ratio">
-                <br/><br/>
-                <input type="file" id="input_image" name = "rawCalanusImage" accept = "image/*" /><br />
-                <p><input type="submit" name="submit" value="Run" /></p>
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label for="ratio" class="form-label text-color">Known mm/pixel ratio</label>
+                        <input class="form-control" type="text" id="ratio" name = "ratio"/>
+                    </div>
+                    <input class= "btn btn-primary" type="submit" name="submit" value="Find Ratio"/>
+                    <br/><br/><br/> <br/>
+                    <div class="mb-3">
+                        <label for="formFileMultiple" class="form-label text-color">Select Image</label>
+                        <input class="form-control" type="file" id="input_image" name= "rawCalanusImage" accept = "image/*" multiple>
+                    </div>
+                    <input class= "btn btn-primary" type="submit" name="submit" value="Run" />
+                <!--<button onclick="return navigate('ratio.html');">Find Ratio</button> </p>-->
+                <!--<button onclick="window.location.href='{{ url_for('calculateRatio')}}';">Find Ratio</button> </p>-->
+                
+                <!--<p><input type="submit" name="submit" value="Run" onclick="alert('Not ready yet!');"/></p>-->
+                
+                </div>
             </form>
+            </div>
+            </div> 
         </div>
         <script>
             function navigate(page) 
