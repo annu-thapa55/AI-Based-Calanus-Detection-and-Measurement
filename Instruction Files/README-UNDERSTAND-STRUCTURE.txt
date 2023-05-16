@@ -17,7 +17,6 @@ structure:
 		|--model	(stores weights and class file)
     		|--raw	(stores all the uploaded raw images of Calanus)
     		|--result	(will store outputs, including visual images and text files)
-    		|--split	(will store all split raw calanus images. This folder will have several folder under it.
     		|--main.py  (main backend functionalities)
 |--templates	(contains all html files)
 |--app.py		(main front-end functionalites using Fask)
