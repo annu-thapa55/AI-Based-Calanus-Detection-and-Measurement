@@ -200,7 +200,7 @@ def visualizing(output_image, raw_image_name):
 def textfile(length_list, raw_image_name):
     text_file_path = os.path.join(root, 'result', os.path.splitext(raw_image_name)[0] + '_result' + '.txt')
     file = open(text_file_path, 'w+', encoding='UTF8')
-    header = 'ID,length in mm,confidence'
+    header = 'ID,length_in_mm,confidence'
     file.write(header + os.linesep)
     for length in length_list:
         length = ",".join(map(str, length))
