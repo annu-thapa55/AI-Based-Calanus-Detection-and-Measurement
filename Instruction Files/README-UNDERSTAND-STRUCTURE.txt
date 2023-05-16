@@ -30,7 +30,7 @@ Virtual Environment for the project:
 -Refer to "setup.docx" for virtual environment creation for the project. 
 
 -------------------------------------------------------------------------------------------
-Put some random files in folders "raw", "result" and "split" for structure purpose as github
+Put some random files in folders "raw" and "result" for structure purpose as github
 does not upload empty folders with commit command. These folders are emptied as per the 
 necessities while running the app.
 -------------------------------------------------------------------------------------------
