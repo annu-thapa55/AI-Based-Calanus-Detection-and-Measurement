@@ -5,16 +5,15 @@ import math
 import cv2
 import numpy as np
 import sys
-# global var
 
+# global var
 root = os.path.join('static', 'root')
-weights_path = os.path.join(root,'model','best.onnx')
-classes_path = os.path.join(root,'model','coco.txt')
+weights_path = os.path.join(root, 'model', 'best.onnx')
+classes_path = os.path.join(root, 'model', 'coco.txt')
 file_name_list_raw = []
 file_name_list_split = []
 length_list = []
 pixel_mm_ratio = round(float(sys.argv[1]), 4)
-# pixel_mm_ratio = 1
 window_size = 2400
 lap_window_percen = 0.2
 net = cv2.dnn.readNet(weights_path)
@@ -36,17 +35,15 @@ BLACK = (0, 0, 0)
 BLUE = (255, 178, 50)
 YELLOW = (0, 255, 255)
 
+
 # sub-functions
-#L3 functions
+# L3 functions
 def draw_label(im, label, x, y):
-    """Draw text onto image at location."""
     # Get text size.
     text_size = cv2.getTextSize(label, FONT_FACE, FONT_SCALE, THICKNESS)
     dim, baseline = text_size[0], text_size[1]
-    # Use text size to create a BLACK rectangle.
-    # cv2.rectangle(im, (x,y), (x + dim[0], y + dim[1] + baseline), (0,0,0), cv2.FILLED);
-    # Display text inside the rectangle.
     cv2.putText(im, label, (x + 20, y + 20 + dim[1]), FONT_FACE, FONT_SCALE, YELLOW, THICKNESS, cv2.LINE_AA)
+
 
 def YOLO_pre(input_image):
     # Create a 4D blob from a frame.
@@ -59,7 +56,8 @@ def YOLO_pre(input_image):
     outputs = net.forward(net.getUnconnectedOutLayersNames())
     return outputs
 
-def YOLO_post(detections,r):
+
+def YOLO_post(detections, r):
     vali = True
     # Lists to hold respective values while unwrapping.
     row = detections[0][0][r]
@@ -71,10 +69,8 @@ def YOLO_post(detections,r):
         class_id = np.argmax(classes_scores)
         #  Continue if the class score is above threshold.
         if (classes_scores[class_id] > SCORE_THRESHOLD):
-            # confidences.append(confidence)
-            # class_ids.append(class_id)
             # centre point, not the original point
-            cx, cy, w, h = row[0], row[1], row[2], row[3] # return these values
+            cx, cy, w, h = row[0], row[1], row[2], row[3]  # return these values
         else:
             vali = False
             cx, cy, w, h, class_id = 0, 0, 0, 0, 0
@@ -83,7 +79,8 @@ def YOLO_post(detections,r):
         cx, cy, w, h, class_id = 0, 0, 0, 0, 0
     return cx, cy, w, h, vali, confidence, class_id
 
-def coordinates_calculator(top_para, left_para,input_image, cx, cy, w, h, confidence, class_id):
+
+def coordinates_calculator(top_para, left_para, input_image, cx, cy, w, h, confidence, class_id):
     image_height, image_width = input_image.shape[:2]
     # Resizing factor. belongs to calculator
     x_factor = image_width / INPUT_WIDTH
@@ -94,39 +91,41 @@ def coordinates_calculator(top_para, left_para,input_image, cx, cy, w, h, confid
     height = int(h * y_factor)
     if left and top != 0:
         if left + width <= window_size - buffer_area and top + height <= window_size - buffer_area:
-            """I need recalculate coordinates here to satisfy the merge method, merge all images before run the NMS method."""
-            #read image file name and get para
-            left = left + left_para #column. add second para of image name
-            top = top + top_para #row. add first para of image name
+            # read image file name and get para
+            left = left + left_para  # column. add second para of image name
+            top = top + top_para  # row. add first para of image name
             box = np.array([left, top, width, height])
             boxes.append(box)
             confidences.append(confidence)
             class_ids.append(class_id)
-#L2 functions
+
+
+# L2 functions
 def file_name_reader(folder):
     global file_name_list_raw
-    #read all files under the specific folder and return names as a list
-    #generate the dir
+    # read all files under the specific folder and return names as a list
     folder_path = str(os.path.join(root, folder))
     for file_name in os.listdir(folder_path):
         if file_name.endswith('.jpg'):
             file_name_list_raw.append(file_name)
 
 
-def detect(start_row, start_col, split_image):#split image is in the solit folder
+def detect(start_row, start_col, split_image):  # split image is in the solit folder
     detections = YOLO_pre(split_image)
     for r in range(detections[0].shape[1]):
-        cx, cy, w, h, vali, confidence, class_id = YOLO_post(detections,r)
+        cx, cy, w, h, vali, confidence, class_id = YOLO_post(detections, r)
         if vali:
             coordinates_calculator(start_row, start_col, split_image, cx, cy, w, h, confidence, class_id)
 
-def lappingRegionCalculator(image_shape):# image_shape is a list, [0] is row, [1] is column
+
+def lappingRegionCalculator(image_shape):  # image_shape is a list, [0] is row, [1] is column
     # how many vertical windows
     window_verti = math.ceil((image_shape[0] - window_size * 0.2) / (window_size - window_size * 0.2))
     # how many horizontal windows
     window_hori = math.ceil((image_shape[1] - window_size * 0.2) / (window_size - window_size * 0.2))
 
     return window_verti, window_hori
+
 
 def slidingWindow(image_shape, image, window_verti, window_hori):
     overlapping_length_row = math.ceil(((window_size * window_verti) - image_shape[0]) / (window_verti - 1))
@@ -136,7 +135,7 @@ def slidingWindow(image_shape, image, window_verti, window_hori):
         for col in range(window_hori):
             start_col = (window_size * col) - (col * overlapping_length_col)
             split_image = image[start_row: start_row + window_size, start_col: start_col + window_size]
-            detect(start_row,start_col,split_image)
+            detect(start_row, start_col, split_image)
     indices = cv2.dnn.NMSBoxes(boxes, confidences, CONFIDENCE_THRESHOLD, NMS_THRESHOLD)
     return indices
 
@@ -151,18 +150,17 @@ def contours(cropImg):
     contour, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     return contour
 
+
 def crop(i, raw_image):
     box = boxes[i]
     left = box[0]
     top = box[1]
     width = box[2]
     height = box[3]
-    """what i need to do is crop the image and return it. no need to draw bounding boxes on raw image"""
-    # cv2.rectangle(input_image, (left, top), (left + width, top + height), BLUE, 3 * THICKNESS)
-    """need to use raw image here, not 2400*2400"""
     # below is contour part
     cropImg = raw_image[top:top + height, left:left + width]
     return cropImg, left, top
+
 
 def circle(raw_image, i, left, top, contour):
     boxes_bol = False
@@ -186,63 +184,64 @@ def circle(raw_image, i, left, top, contour):
     if boxes_bol == True:
         # Draw bounding box.
         output_image = cv2.circle(raw_image, center, radius, BLUE, 1 * THICKNESS)
-        # Class label.
-        # label = "{}:{:.2f}, L:{}".format(classes[class_ids[i]], confidences[i], radius * 2)
         label = "{}".format(i)
         # Draw label.
         draw_label(output_image, label, left, top)
-        length_list.append([(radius*2)*pixel_mm_ratio, confidences[i]])
+        length_list.append([(radius * 2) * pixel_mm_ratio, i])
     return output_image
 
-def visualizing(output_image,raw_image_name):
-    # name = os.path.splitext(raw_image_name)[0]+'_result'+'.jpg'
-    cv2.imwrite(os.path.join(root,'result',raw_image_name), output_image)
 
-def textfile(length_list,raw_image_name):
-    text_file_path = os.path.join(root,'result', os.path.splitext(raw_image_name)[0]+'_result'+'.txt')
+def visualizing(output_image, raw_image_name):
+    # name = os.path.splitext(raw_image_name)[0]+'_result'+'.jpg'
+    cv2.imwrite(os.path.join(root, 'result', raw_image_name), output_image)
+
+
+def textfile(length_list, raw_image_name):
+    text_file_path = os.path.join(root, 'result', os.path.splitext(raw_image_name)[0] + '_result' + '.txt')
     file = open(text_file_path, 'w+', encoding='UTF8')
-    header='length in mm, confidence'
+    header = 'length in mm, ID'
     file.write(header + os.linesep)
     for length in length_list:
         length = ",".join(map(str, length))
         file.write(str(length) + os.linesep)
     file.close()
-    
 
-#L1 functions
-"""init dir, pre-processing all images, detect, measure, output"""
-def dir_init(raw_img_folder = 'raw'):
+
+# L1 functions
+def dir_init(raw_img_folder='raw'):
     file_name_reader(raw_img_folder)
+
 def image_pre(raw_image):
     if raw_image.shape[0] and raw_image.shape[1] != 2400:
         window_verti, window_hori = lappingRegionCalculator(raw_image.shape)
         indices = slidingWindow(raw_image.shape, raw_image, window_verti, window_hori)
     return indices
-def measure(raw_image, indices):# need indices, for one raw image
+
+
+def measure(raw_image, indices):  # need indices, for one raw image
     global length_list
     length_list = []
     if len(indices) != 0:
-        for i in indices:#iterate through all boxes
+        for i in indices:  # iterate through all boxes
             cropImg, left, top = crop(i, raw_image)
             contour = contours(cropImg)
             output_image = circle(raw_image, i, left, top, contour)
     else:
         output_image = raw_image
     return output_image
-def file_image_output(output_image):# for one raw image
-    # visualise image output
-    # cv2.imshow('test', output_image)
-    # cv2.waitKey(0)
-    visualizing(output_image,raw_image_name)
+
+def file_image_output(output_image):  # for one raw image
+    visualizing(output_image, raw_image_name)
     # generate text file
     textfile(length_list, raw_image_name)
+
 # main program
-#for time calculating
-start=time.time()
+# for time calculating
+start = time.time()
 
 dir_init()
-for raw_image_name in file_name_list_raw:# first loop. raw
-    raw_image = cv2.imread(os.path.join(root,'raw',raw_image_name))
+for raw_image_name in file_name_list_raw:  # first loop. raw
+    raw_image = cv2.imread(os.path.join(root, 'raw', raw_image_name))
     boxes = []
     confidences = []
     class_ids = []
@@ -251,5 +250,5 @@ for raw_image_name in file_name_list_raw:# first loop. raw
     file_image_output(output_image)
 
 end = time.time()
-print('runing time is :', end-start)
+print('runing time is :', end - start)
 
