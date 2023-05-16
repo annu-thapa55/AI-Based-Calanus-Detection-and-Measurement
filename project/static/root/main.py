@@ -189,7 +189,7 @@ def circle(raw_image, i, left, top, contour):
         label = "{}".format(i)
         # Draw label.
         draw_label(output_image, label, left, top)
-        length_list.append(['id{}'.format(id), (radius * 2) * pixel_mm_ratio, confidences[i]])
+        length_list.append([id, (radius * 2) * pixel_mm_ratio, confidences[i]])
     return output_image
 
 
