@@ -208,7 +208,6 @@ def textfile(length_list, raw_image_name):
         file.write(str(length) + os.linesep)
     file.close()
 
-
 # L1 functions
 def dir_init(raw_img_folder='raw'):
     file_name_reader(raw_img_folder)
