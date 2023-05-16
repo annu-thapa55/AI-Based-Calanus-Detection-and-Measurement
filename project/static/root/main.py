@@ -186,7 +186,7 @@ def circle(raw_image, i, left, top, contour):
     if boxes_bol == True:
         # Draw bounding box.
         output_image = cv2.circle(raw_image, center, radius, BLUE, 1 * THICKNESS)
-        label = "{}".format(i)
+        label = "{}".format(id)
         # Draw label.
         draw_label(output_image, label, left, top)
         length_list.append([id, (radius * 2) * pixel_mm_ratio, confidences[i]])
@@ -194,7 +194,6 @@ def circle(raw_image, i, left, top, contour):
 
 
 def visualizing(output_image, raw_image_name):
-    # name = os.path.splitext(raw_image_name)[0]+'_result'+'.jpg'
     cv2.imwrite(os.path.join(root, 'result', raw_image_name), output_image)
 
 
