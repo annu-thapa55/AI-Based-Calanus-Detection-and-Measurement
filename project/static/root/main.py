@@ -219,7 +219,6 @@ def image_pre(raw_image):
         indices = slidingWindow(raw_image.shape, raw_image, window_verti, window_hori)
     return indices
 
-
 def measure(raw_image, indices):  # need indices, for one raw image
     global length_list
     length_list = []
