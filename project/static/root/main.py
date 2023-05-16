@@ -163,6 +163,8 @@ def crop(i, raw_image):
 
 
 def circle(raw_image, i, left, top, contour):
+    global id
+    id = id + 1
     boxes_bol = False
     # find rotated boxes
     if len(contour) > 0:
@@ -187,7 +189,7 @@ def circle(raw_image, i, left, top, contour):
         label = "{}".format(i)
         # Draw label.
         draw_label(output_image, label, left, top)
-        length_list.append([(radius * 2) * pixel_mm_ratio, i])
+        length_list.append(['id{}'.format(id), (radius * 2) * pixel_mm_ratio, confidences[i]])
     return output_image
 
 
@@ -199,7 +201,7 @@ def visualizing(output_image, raw_image_name):
 def textfile(length_list, raw_image_name):
     text_file_path = os.path.join(root, 'result', os.path.splitext(raw_image_name)[0] + '_result' + '.txt')
     file = open(text_file_path, 'w+', encoding='UTF8')
-    header = 'length in mm, ID'
+    header = 'ID,length in mm,confidence'
     file.write(header + os.linesep)
     for length in length_list:
         length = ",".join(map(str, length))
@@ -241,6 +243,7 @@ start = time.time()
 
 dir_init()
 for raw_image_name in file_name_list_raw:  # first loop. raw
+    id = 0
     raw_image = cv2.imread(os.path.join(root, 'raw', raw_image_name))
     boxes = []
     confidences = []
