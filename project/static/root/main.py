@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 import sys
 
-# global var
+# global variables
 root = os.path.join('static', 'root')
 weights_path = os.path.join(root, 'model', 'best.onnx')
 classes_path = os.path.join(root, 'model', 'coco.txt')
@@ -49,7 +49,7 @@ def YOLO_pre(input_image):
     # Create a 4D blob from a frame.
     blob = cv2.dnn.blobFromImage(input_image, 1 / 255, (INPUT_WIDTH, INPUT_HEIGHT), [0, 0, 0], 1, crop=False)
 
-    # Sets the input to the network.
+    # Set the input to the network.
     net.setInput(blob)
 
     # Run the forward pass to get output of the output layers.
@@ -59,10 +59,10 @@ def YOLO_pre(input_image):
 
 def YOLO_post(detections, r):
     vali = True
-    # Lists to hold respective values while unwrapping.
+    # List to hold respective values while unwrapping.
     row = detections[0][0][r]
     confidence = row[4]
-    # Discard bad detections and continue.
+    # Discard bad detections and continues.
     if confidence >= CONFIDENCE_THRESHOLD:
         classes_scores = row[5:]
         # Get the index of max class score.
@@ -82,7 +82,7 @@ def YOLO_post(detections, r):
 
 def coordinates_calculator(top_para, left_para, input_image, cx, cy, w, h, confidence, class_id):
     image_height, image_width = input_image.shape[:2]
-    # Resizing factor. belongs to calculator
+    # Resize factor. belongs to calculator
     x_factor = image_width / INPUT_WIDTH
     y_factor = image_height / INPUT_HEIGHT
     left = int((cx - w / 2) * x_factor)
@@ -110,7 +110,7 @@ def file_name_reader(folder):
             file_name_list_raw.append(file_name)
 
 
-def detect(start_row, start_col, split_image):  # split image is in the solit folder
+def detect(start_row, start_col, split_image):  # split image is in the split folder
     detections = YOLO_pre(split_image)
     for r in range(detections[0].shape[1]):
         cx, cy, w, h, vali, confidence, class_id = YOLO_post(detections, r)
@@ -184,10 +184,10 @@ def circle(raw_image, i, left, top, contour):
         center = 0
         radius = 0
     if boxes_bol == True:
-        # Draw bounding box.
+        # Draw bounding box
         output_image = cv2.circle(raw_image, center, radius, BLUE, 1 * THICKNESS)
         label = "{}".format(id)
-        # Draw label.
+        # Draw label
         draw_label(output_image, label, left, top)
         length_list.append([id, (radius * 2) * pixel_mm_ratio, confidences[i]])
     return output_image
@@ -235,7 +235,7 @@ def file_image_output(output_image):  # for one raw image
     textfile(length_list, raw_image_name)
 
 # main program
-# for time calculating
+# start time to calculate time required for running backend  functionalities
 start = time.time()
 
 dir_init()
@@ -248,7 +248,8 @@ for raw_image_name in file_name_list_raw:  # first loop. raw
     indices = image_pre(raw_image)
     output_image = measure(raw_image, indices)
     file_image_output(output_image)
-
+    
+# end time to calculate time required for running backend  functionalities
 end = time.time()
 print('runing time is :', end - start)
 

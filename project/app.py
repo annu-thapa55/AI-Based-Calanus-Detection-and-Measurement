@@ -13,7 +13,7 @@ BACKEND_FOLDER = os.path.join('static', 'root')
 #Defining path for Flask's static folder 
 app = Flask (__name__, static_url_path= '/static')
 
-#Configuring UPLOAD_FOLDER 
+#Configuring upload folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #Configuring backend folder that contains backend relevant functionalities and files
@@ -22,7 +22,7 @@ app.config['BACKEND_FOLDER'] = BACKEND_FOLDER
 #Defining secret key to enable session
 app.secret_key = 'calanus'
 
-#function deletes the contents of "raw", "result", "split" folders and "Results.zip" file
+#function deletes the contents of "raw" and "result" folders and "Results.zip" file
 def clearFolders():
     rawPath= os.path.join(app.config['BACKEND_FOLDER'], 'raw')
     resultPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
@@ -81,7 +81,7 @@ def calanusImageUpload():
             #Getting list of uploaded files
             uploadedRawImgs = request.files.getlist("rawCalanusImage")
 
-            #Iterating thrugh each file in the file list and saving them in "raw" folder
+            #Iterating through each file in the file list and saving them in "raw" folder
 
             for imgFile in uploadedRawImgs:
                 #Extracting uploaded data file name
@@ -90,7 +90,7 @@ def calanusImageUpload():
                 #Uploading file to the "raw" folder inside "static" folder
                 imgFile.save(os.path.join(app.config['UPLOAD_FOLDER'], imgFilename))
             
-            #Saving the value of calculated ratio
+            #Saving the value of calculated ratio populated in the text field
             calculatedRatio = request.form['ratio']
 
             #Running Backend functionalities by running main.py and passing calculatedRatio value to main.py
@@ -107,9 +107,8 @@ def calculateRatio():
     #ratio = float(request.form['ratio'])
     return render_template('ratio.html') 
 
-
-@app.route('/downloadResult', methods =['GET', 'POST'])
 #decorator for downloading result files
+@app.route('/downloadResult', methods =['GET', 'POST'])
 def downloadResult():
     downloadPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
     zipResult = shutil.make_archive('Results', 'zip', downloadPath)
