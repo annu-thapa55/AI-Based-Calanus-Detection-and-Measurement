@@ -51,6 +51,7 @@ Cloning the repo, command for installing requirements if we have a requirements.
 git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement.git
 ```
 Or use https://download-directory.github.io/ to download it.
+
 2. Install requirements
 ```
 pip install -r requirements.txt
