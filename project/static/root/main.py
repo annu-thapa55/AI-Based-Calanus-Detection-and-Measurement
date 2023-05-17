@@ -184,10 +184,10 @@ def circle(raw_image, i, left, top, contour):
         center = 0
         radius = 0
     if boxes_bol == True:
-        # Draw bounding box.
+        # Draw bounding box
         output_image = cv2.circle(raw_image, center, radius, BLUE, 1 * THICKNESS)
         label = "{}".format(id)
-        # Draw label.
+        # Draw label
         draw_label(output_image, label, left, top)
         length_list.append([id, (radius * 2) * pixel_mm_ratio, confidences[i]])
     return output_image
@@ -235,7 +235,7 @@ def file_image_output(output_image):  # for one raw image
     textfile(length_list, raw_image_name)
 
 # main program
-# for time calculating
+# start time to calculate time required for running backend  functionalities
 start = time.time()
 
 dir_init()
@@ -248,7 +248,8 @@ for raw_image_name in file_name_list_raw:  # first loop. raw
     indices = image_pre(raw_image)
     output_image = measure(raw_image, indices)
     file_image_output(output_image)
-
+    
+# end time to calculate time required for running backend  functionalities
 end = time.time()
 print('runing time is :', end - start)
 
