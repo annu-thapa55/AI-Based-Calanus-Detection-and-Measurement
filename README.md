@@ -9,6 +9,7 @@ This project creates a tool that allows scientists to provide a set of images of
       <a href="#description">Description</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#performance">Performance</a></li>
       </ul>
     </li>
     <li>
