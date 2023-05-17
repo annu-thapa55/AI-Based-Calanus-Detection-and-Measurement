@@ -5,11 +5,11 @@ This tool is a browser-based web application. We used flask as the framework. Th
 ### Frontend
 
 ### Backend
-### Detecting
+#### Detecting
 Our model is Opencv format(.onnx). Weights and classes stored under the folder "model". To detect other objects you can train your own model and replace them. 
-### Measuring
+#### Measuring
 We used opencv method "minCircle" to find the length of objects based on contours. You can modify this method to "minAreaRect" to get both length and width of objects.
-### Output format
+#### Output format
 Each input image will have two outputs: one text file, one labelled image.
 Text file contains Three columns: ID, length(mm), confidential score
 ID: Order the integer start from 1. 
