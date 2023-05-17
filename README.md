@@ -1,6 +1,10 @@
 # AI Based Calanus Detection and Measurement
 This project creates a tool that allows scientists to provide a set of images of Calanus catch samples as input along with a conversion scale, and automatically detects the Calanus in the images and outputs their length in millimetres in text files that can be used for further analysis of size distribution...
 ## Description
+
+### Built With
+* [![Flask][Flask-image]][Flask-url]
+
 This tool is a browser-based web application. We used flask as the framework. The backend is based on Opencv
 
 
@@ -25,7 +29,7 @@ pip install -r requirements.txt
 
 ## Usage
 ### Running the Application
-Explanation of how to run it 
+To start the application, do...
 
 Add additional sections that demonstrate how to use the app, including images
 
@@ -43,3 +47,8 @@ labelled image is the raw image with ID on each calanus, user can check the imag
 
 ## Customization
 Our model is Opencv format(.onnx). Weights and classes stored under the folder "model". To detect other objects you can train your own model and replace them. 
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[Flask-image]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
+[Flask-url]: https://flask.palletsprojects.com/
