@@ -1,6 +1,6 @@
-# AI-Based-Calanus-Detection-and-Measurement (ABCDM)
+# AI Based Calanus Detection and Measurement
 This project creates a tool that allows scientists to provide a set of images of Calanus catch samples as input along with a conversion scale, and automatically detects the Calanus in the images and outputs their length in millimetres in text files that can be used for further analysis of size distribution...
-## Descriptions
+## Description
 This tool is a browser-based web application. We used flask as the framework. The backend is based on Opencv
 ### Frontend
 
@@ -17,5 +17,7 @@ Length: pixel value times pixel_mm_ratio.
 Confidential score: From YOLO model, for user to exam.
 labelled image is the raw image with ID on each calanus, user can check the image and drop unwanted observations basing on ID.
 ## Getting started
-### Environment
-### Running
+### Requirements
+### Installation 
+
+## Usage
