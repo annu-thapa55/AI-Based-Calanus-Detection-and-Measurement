@@ -16,7 +16,7 @@ If packages need to be installed manually, they should be listed here...
 Cloning the repo, command for installing requirements if we have a requirements.txt file
 
 ## Usage
-### Running the App
+### Running the Application
 Explanation of how to run it 
 
 Add additional sections that demonstrate how to use the app, including images
