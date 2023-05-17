@@ -39,35 +39,35 @@ YELLOW = (0, 255, 255)
 # sub-functions
 # L3 functions
 def draw_label(im, label, x, y):
-    # Gets text size.
+    # Get text size.
     text_size = cv2.getTextSize(label, FONT_FACE, FONT_SCALE, THICKNESS)
     dim, baseline = text_size[0], text_size[1]
     cv2.putText(im, label, (x + 20, y + 20 + dim[1]), FONT_FACE, FONT_SCALE, YELLOW, THICKNESS, cv2.LINE_AA)
 
 
 def YOLO_pre(input_image):
-    # Creates a 4D blob from a frame.
+    # Create a 4D blob from a frame.
     blob = cv2.dnn.blobFromImage(input_image, 1 / 255, (INPUT_WIDTH, INPUT_HEIGHT), [0, 0, 0], 1, crop=False)
 
-    # Sets the input to the network.
+    # Set the input to the network.
     net.setInput(blob)
 
-    # Runs the forward pass to get output of the output layers.
+    # Run the forward pass to get output of the output layers.
     outputs = net.forward(net.getUnconnectedOutLayersNames())
     return outputs
 
 
 def YOLO_post(detections, r):
     vali = True
-    # Lists to hold respective values while unwrapping.
+    # List to hold respective values while unwrapping.
     row = detections[0][0][r]
     confidence = row[4]
-    # Discards bad detections and continues.
+    # Discard bad detections and continues.
     if confidence >= CONFIDENCE_THRESHOLD:
         classes_scores = row[5:]
-        # Gest the index of max class score.
+        # Get the index of max class score.
         class_id = np.argmax(classes_scores)
-        #  Continues if the class score is above threshold.
+        #  Continue if the class score is above threshold.
         if (classes_scores[class_id] > SCORE_THRESHOLD):
             # centre point, not the original point
             cx, cy, w, h = row[0], row[1], row[2], row[3]  # return these values
@@ -82,7 +82,7 @@ def YOLO_post(detections, r):
 
 def coordinates_calculator(top_para, left_para, input_image, cx, cy, w, h, confidence, class_id):
     image_height, image_width = input_image.shape[:2]
-    # Resizing factor. belongs to calculator
+    # Resize factor. belongs to calculator
     x_factor = image_width / INPUT_WIDTH
     y_factor = image_height / INPUT_HEIGHT
     left = int((cx - w / 2) * x_factor)
@@ -110,7 +110,7 @@ def file_name_reader(folder):
             file_name_list_raw.append(file_name)
 
 
-def detect(start_row, start_col, split_image):  # split image is in the solit folder
+def detect(start_row, start_col, split_image):  # split image is in the split folder
     detections = YOLO_pre(split_image)
     for r in range(detections[0].shape[1]):
         cx, cy, w, h, vali, confidence, class_id = YOLO_post(detections, r)
