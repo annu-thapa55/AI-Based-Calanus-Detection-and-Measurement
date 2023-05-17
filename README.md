@@ -61,6 +61,9 @@ pip install -r requirements.txt
 ### Running the Application
 To start the application, do...
 
+
+Write something about sample images 
+
 Add additional sections that demonstrate how to use the app, including images
 
 ### Output
