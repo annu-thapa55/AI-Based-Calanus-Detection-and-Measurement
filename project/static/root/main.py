@@ -212,7 +212,7 @@ def dir_init(raw_img_folder='raw'):
     file_name_reader(raw_img_folder)
 
 def image_pre(raw_image):
-    if raw_image.shape[0] and raw_image.shape[1] != 2400:
+    if raw_image.shape[0] and raw_image.shape[1] > 2400:
         window_verti, window_hori = lappingRegionCalculator(raw_image.shape)
         indices = slidingWindow(raw_image.shape, raw_image, window_verti, window_hori)
     return indices
