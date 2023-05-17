@@ -13,7 +13,15 @@ We used opencv method "minCircle" to find the length of objects based on contour
 ### Requirements
 If packages need to be installed manually, they should be listed here...
 ### Installation 
-Cloning the repo, command for installing requirements if we have a requirements.txt file
+Cloning the repo, command for installing requirements if we have a requirements.txt file...
+1. Clone the repo
+```
+git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement.git
+```
+2. Install requirements
+```
+pip install -r requirements.txt
+```
 
 ## Usage
 ### Running the Application
