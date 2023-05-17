@@ -1,4 +1,4 @@
-Read this file to understand merging of backend and front end:
+Read this file to understand the structure of the project:
 
 Packages to be installed:
 -Install Flask:
