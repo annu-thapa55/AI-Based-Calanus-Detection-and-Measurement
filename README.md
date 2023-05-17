@@ -29,11 +29,18 @@ This project creates a tool that allows scientists to provide a set of images of
 </details>
 
 ## Description
-This project offers an AI-based solution to automatic Calanus detection and length estimation which lets the user input one or more images and a millimetre-to-pixel ratio and get a list of all the lengths in millimetres in a text file as output as well as the corresponding detections and measurements visualised on the image. The tool has been developed by training a [YOLOv5 model](https://github.com/ultralytics/yolov5) to recognise Calanus and using a variety of computer vision methods from OpenCV to estimate the length of the detected Calanus. A 95.8% precision and 92% recall for Calanus detection have been demonstrated, as well as an error rate of less than 10% for more than 95% of the length estimations. Furthermore, the program can complete its processes on one high resolution image in 45.42 seconds on average. The program has been integrated into a user-friendly web application based on Flask.
+This project offers an AI-based solution to automatic Calanus detection and length estimation which lets the user input one or more images and a millimetre-to-pixel ratio and get a list of all the lengths in millimetres in a text file as output as well as the corresponding detections and measurements visualised on the image. The tool has been developed by training a [YOLOv5 model](https://github.com/ultralytics/yolov5) to recognise Calanus and using a variety of computer vision methods from OpenCV to estimate the length of the detected Calanus.  
+The 
+A 95.8% precision and 92% recall for Calanus detection have been demonstrated, as well as an error rate of less than 10% for more than 95% of the length estimations. Furthermore, the program can complete its processes on one high resolution image in 45.42 seconds on average. The program has been integrated into a user-friendly web application based on Flask.
 
 ### Built With
 * [![Flask][Flask-image]][Flask-url]
 * [![OpenCV][OpenCV-image]][OpenCV-url]
+
+### Performance 
+* 95.8% precision and 92% recall for Calanus detection
+* Less than 10% error rate for more than 95% of length estimations
+* A speed of 1.32 images per minute for very high resolution images
 
 ## Getting Started
 ### Requirements
