@@ -22,7 +22,7 @@ app.config['BACKEND_FOLDER'] = BACKEND_FOLDER
 #Defining secret key to enable session
 app.secret_key = 'calanus'
 
-#function deletes the contents of "raw", "result", "split" folders and "Results.zip" file
+#function deletes the contents of "raw" and "result" folders and "Results.zip" file
 def clearFolders():
     rawPath= os.path.join(app.config['BACKEND_FOLDER'], 'raw')
     resultPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
