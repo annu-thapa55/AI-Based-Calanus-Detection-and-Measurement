@@ -81,7 +81,7 @@ def calanusImageUpload():
             #Getting list of uploaded files
             uploadedRawImgs = request.files.getlist("rawCalanusImage")
 
-            #Iterating thrugh each file in the file list and saving them in "raw" folder
+            #Iterating through each file in the file list and saving them in "raw" folder
 
             for imgFile in uploadedRawImgs:
                 #Extracting uploaded data file name
@@ -90,7 +90,7 @@ def calanusImageUpload():
                 #Uploading file to the "raw" folder inside "static" folder
                 imgFile.save(os.path.join(app.config['UPLOAD_FOLDER'], imgFilename))
             
-            #Saving the value of calculated ratio
+            #Saving the value of calculated ratio populated in the text field
             calculatedRatio = request.form['ratio']
 
             #Running Backend functionalities by running main.py and passing calculatedRatio value to main.py
@@ -107,9 +107,8 @@ def calculateRatio():
     #ratio = float(request.form['ratio'])
     return render_template('ratio.html') 
 
-
-@app.route('/downloadResult', methods =['GET', 'POST'])
 #decorator for downloading result files
+@app.route('/downloadResult', methods =['GET', 'POST'])
 def downloadResult():
     downloadPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
     zipResult = shutil.make_archive('Results', 'zip', downloadPath)
