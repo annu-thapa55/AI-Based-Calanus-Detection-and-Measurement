@@ -4,6 +4,7 @@ This project creates a tool that allows scientists to provide a set of images of
 
 ### Built With
 * [![Flask][Flask-image]][Flask-url]
+* [![OpenCV][OpenCV-image]][OpenCV-url]
 
 This tool is a browser-based web application. We used flask as the framework. The backend is based on Opencv
 
@@ -52,3 +53,5 @@ Our model is Opencv format(.onnx). Weights and classes stored under the folder "
 <!-- MARKDOWN LINKS & IMAGES -->
 [Flask-image]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
 [Flask-url]: https://flask.palletsprojects.com/
+[OpenCV-image]: https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white
+[OpenCV-url]: https://opencv.org/
