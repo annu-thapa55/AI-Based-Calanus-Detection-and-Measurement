@@ -1,6 +1,6 @@
 #packages
 import cv2
-from flask import Flask, render_template, request,send_file, flash
+from flask import Flask, render_template, request, send_file, flash
 import os, shutil
 import subprocess
 from werkzeug.utils import secure_filename
@@ -13,6 +13,7 @@ BACKEND_FOLDER = os.path.join('static', 'root')
 
 #Defining allowed image extensions
 ALLOWED_EXTENSIONS = {'jpg'}
+
 
 #Defining path for Flask's static folder 
 app = Flask (__name__, static_url_path= '/static')
@@ -153,7 +154,8 @@ def calanusImageUpload():
                 if filePath not in validatedFiles:
                     try:
                         if os.path.isfile(filePath):
-                            os.remove(filePath)     
+                            os.remove(filePath)  
+                            
                     except Exception as e:  
                         print(f"Error deleting {filePath}: {e}")
 
