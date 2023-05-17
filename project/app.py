@@ -1,6 +1,7 @@
 #packages
-from flask import Flask, render_template, request,send_file
-import os,shutil
+import cv2
+from flask import Flask, render_template, request,send_file, flash
+import os, shutil
 import subprocess
 from werkzeug.utils import secure_filename
 
@@ -10,10 +11,13 @@ UPLOAD_FOLDER = os.path.join('static/root', 'raw')
 #Defining path for files related to backend
 BACKEND_FOLDER = os.path.join('static', 'root')
 
+#Defining allowed image extensions
+ALLOWED_EXTENSIONS = {'jpg'}
+
 #Defining path for Flask's static folder 
 app = Flask (__name__, static_url_path= '/static')
 
-#Configuring upload folder
+#Configuring UPLOAD_FOLDER 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #Configuring backend folder that contains backend relevant functionalities and files
@@ -22,7 +26,35 @@ app.config['BACKEND_FOLDER'] = BACKEND_FOLDER
 #Defining secret key to enable session
 app.secret_key = 'calanus'
 
-#function deletes the contents of "raw" and "result" folders and "Results.zip" file
+#function validates ratio input
+def validateRatio(ratio):
+    ratio = ratio.strip()
+
+    #check if empty
+    if ratio == '':
+        return False 
+    
+    #try converting to float
+    try:
+        float(ratio)
+        return True
+    
+    except ValueError:
+        return False
+
+    
+def validateImageSize(imgFile):
+    img = cv2.imread(imgFile) 
+    
+    if img.shape[0] <= 2400:
+        return False
+    
+    if img.shape[1] <= 2400:
+        return False
+    
+    return True
+
+#function deletes the contents of "raw", "result", "split" folders and "Results.zip" file
 def clearFolders():
     rawPath= os.path.join(app.config['BACKEND_FOLDER'], 'raw')
     resultPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
@@ -84,14 +116,52 @@ def calanusImageUpload():
             #Iterating through each file in the file list and saving them in "raw" folder
 
             for imgFile in uploadedRawImgs:
-                #Extracting uploaded data file name
+                #Check if no image has been uploaded
+                if imgFile.filename == '':
+                    flash('Please upload an image')
+                    return render_template('index.html')
+            
+                 #Extracting uploaded data file name
                 imgFilename = secure_filename(imgFile.filename)
 
                 #Uploading file to the "raw" folder inside "static" folder
                 imgFile.save(os.path.join(app.config['UPLOAD_FOLDER'], imgFilename))
             
-            #Saving the value of calculated ratio populated in the text field
+            #Saving the value of calculated ratio
             calculatedRatio = request.form['ratio']
+
+            #Check if ratio has been provided
+            if not validateRatio(calculatedRatio):
+                flash('Ratio must be a number')
+                return render_template('index.html')
+
+            #Validate image size 
+            uploadPath = app.config['UPLOAD_FOLDER']
+            uploadFiles = [file for file in os.listdir(uploadPath)]
+            validatedFiles = []
+
+            for filename in uploadFiles: 
+                filePath = os.path.join(uploadPath, filename)  
+                
+                if validateImageSize(filePath):
+                    validatedFiles.append(filePath)
+
+            #Remove images that were not validated
+            for filename in uploadFiles:
+                filePath = os.path.join(uploadPath, filename)
+
+                if filePath not in validatedFiles:
+                    try:
+                        if os.path.isfile(filePath):
+                            os.remove(filePath)     
+                    except Exception as e:  
+                        print(f"Error deleting {filePath}: {e}")
+
+            #If no valid images, do nothing
+            if len(validatedFiles) == 0:
+                flash('Image width and height must be larger than 2400 pixels')
+                return render_template('index.html')
+
 
             #Running Backend functionalities by running main.py and passing calculatedRatio value to main.py
             backend_path = os.path.join(app.config['BACKEND_FOLDER'], 'main.py')
@@ -104,11 +174,11 @@ def calanusImageUpload():
 #decorator for calculating ratio with reference object
 @app.route ("/calculateRatio", methods= ['POST'])
 def calculateRatio():
-    #ratio = float(request.form['ratio'])
     return render_template('ratio.html') 
 
-#decorator for downloading result files
+
 @app.route('/downloadResult', methods =['GET', 'POST'])
+#decorator for downloading result files
 def downloadResult():
     downloadPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
     zipResult = shutil.make_archive('Results', 'zip', downloadPath)

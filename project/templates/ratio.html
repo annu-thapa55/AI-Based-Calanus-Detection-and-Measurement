@@ -29,6 +29,16 @@
                 background-color: #89CFF0;
                 border: #89CFF0;
             }
+            .btn-primary-outline{
+                color: #89CFF0;
+                border: #89CFF0;
+                
+            }
+            .btn-primary-outline:hover{
+                color:blue;
+                border: #89CFF0;
+                
+            }
             .float-right{
                 text-align: right;
             }
@@ -36,6 +46,22 @@
                 color: #89CFF0;
                 font-weight: bold;
                 font-size: 25px;
+            }
+
+            #distance {
+                height: 20px;
+                text-align: center;
+            }
+
+            canvas {
+                margin: auto;
+                display: block;
+                cursor: pointer;
+            }
+
+            #canvasDiv {
+                padding-top: 10px;
+                padding-bottom: 50px;
             }
         </style>
     </head>
@@ -56,7 +82,8 @@
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
           </svg>
-        <label class="form-label" style ="font-size: 14px">Please upload the Reference Image and Enter the known ratio</label>
+        <label class="form-label" style ="font-size: 14px">Please upload an image with a reference object, and enter the length of the object in millimeters.
+            <br/>Place a point at the start and end of the object and press calculate to find the ratio.</label>
         <br>
         <!-- <form> -->
             <div class="mb-3">
@@ -72,13 +99,16 @@
                 <button class= "btn btn-primary float-right" onclick="findRatio()">CALCULATE</button>
             </div>
           <!-- </form> -->
+        <form action="{{url_for('homepage')}}" method="POST">
+        <input class= "btn btn-primary-outline float-right" type="submit" name="homePage" value="Home Page">
+        </form>
         </div>
         </div>
-        <div id ="canvasDiv"><canvas id="canvas" width="600" height="600"></canvas></div>
         <div id="distance"></div>
+        <div id ="canvasDiv"><canvas id="canvas"></canvas></div>
         </div>
         <script>
-            const maxWidth = 600;
+            const maxWidth = 1000;
             const maxImageSize = 10; // MB
 
             var scale = 1.0;
@@ -213,7 +243,7 @@
                 if (errorCount == 0) {
                     var ratio = (knownLength / distance).toFixed(6); // round to 6 decimals
                     localStorage.setItem("ratio", ratio); // save in local storage
-                    window.location.href="{{ url_for('homepage')}}";                // go back to home page
+                    window.location.href="{{ url_for('homepage')}}"; // go back to home page
                 } 
             }
         </script>

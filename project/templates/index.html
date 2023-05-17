@@ -64,30 +64,31 @@
                     <br/><br/><br/> <br/>
                     <div class="mb-3">
                         <label for="formFileMultiple" class="form-label text-color">Select Image</label>
-                        <input class="form-control" type="file" id="input_image" name= "rawCalanusImage" accept = "image/*" multiple>
+                        <input class="form-control" type="file" id="input_image" name= "rawCalanusImage" accept = ".jpg" multiple>
                     </div>
-                    <input class= "btn btn-primary" type="submit" name="submit" value="Run" />
-               
-                
+                    <input class= "btn btn-primary" type="submit" name="submit" value="Run" onclick="saveRatio();"/>
                 </div>
             </form>
             </div>
+            <div class="flashes">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
             </div> 
         </div>
         <script>
-           
             var ratio = localStorage.getItem("ratio");
             document.getElementById("ratio").value = ratio;
-        </script>
 
-        <script>
-            function findRatio() 
-            {
-                document.getElementById("ratio").value = ratio;
+            // save input ratio 
+            function saveRatio() {
+                var newRatio = document.getElementById("ratio").value;
+                localStorage.setItem("ratio", newRatio); // save in local storage
             }
-
-            var ratio = localStorage.getItem("ratio");
-            document.getElementById("ratio").value = ratio;
         </script>
     </body>
 </html>
