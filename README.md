@@ -29,13 +29,11 @@ This project creates a tool that allows scientists to provide a set of images of
 </details>
 
 ## Description
+This project offers an AI-based solution to automatic Calanus detection and length estimation which lets the user input one or more images and a millimetre-to-pixel ratio and get a list of all the lengths in millimetres in a text file as output as well as the corresponding detections and measurements visualised on the image. The tool has been developed by training a [YOLOv5 model](https://github.com/ultralytics/yolov5) to recognise Calanus and using a variety of computer vision methods from OpenCV to estimate the length of the detected Calanus. A 95.8% precision and 92% recall for Calanus detection have been demonstrated, as well as an error rate of less than 10% for more than 95% of the length estimations. Furthermore, the program can complete its processes on one high resolution image in 45.42 seconds on average. The program has been integrated into a user-friendly web application based on Flask.
 
 ### Built With
 * [![Flask][Flask-image]][Flask-url]
 * [![OpenCV][OpenCV-image]][OpenCV-url]
-
-This tool is a browser-based web application. We used flask as the framework. The backend is based on Opencv
-
 
 ## Getting Started
 ### Requirements
@@ -46,6 +44,7 @@ Cloning the repo, command for installing requirements if we have a requirements.
 ```
 git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement.git
 ```
+Or use https://download-directory.github.io/ to download it.
 2. Install requirements
 ```
 pip install -r requirements.txt
