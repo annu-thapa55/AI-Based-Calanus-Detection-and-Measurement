@@ -1,5 +1,33 @@
 # AI Based Calanus Detection and Measurement
 This project creates a tool that allows scientists to provide a set of images of Calanus catch samples as input along with a conversion scale, and automatically detects the Calanus in the images and outputs their length in millimetres in text files that can be used for further analysis of size distribution...
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#description">Description</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#requirements">Requirements</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#find-ratio">Find Ratio</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+      <ul>
+        <li><a href="#running-the-application">Running the Application</a></li>
+        <li><a href="#output">Output</a></li>
+      </ul>
+    <li><a href="#customization">Customization</a></li>
+  </ol>
+</details>
+
 ## Description
 
 ### Built With
@@ -7,11 +35,6 @@ This project creates a tool that allows scientists to provide a set of images of
 * [![OpenCV][OpenCV-image]][OpenCV-url]
 
 This tool is a browser-based web application. We used flask as the framework. The backend is based on Opencv
-
-
-Our model is Opencv format(.onnx). Weights and classes stored under the folder "model". To detect other objects you can train your own model and replace them. 
-
-We used opencv method "minCircle" to find the length of objects based on contours. You can modify this method to "minAreaRect" to get both length and width of objects.
 
 
 ## Getting Started
@@ -48,6 +71,7 @@ labelled image is the raw image with ID on each calanus, user can check the imag
 
 ## Customization
 Our model is Opencv format(.onnx). Weights and classes stored under the folder "model". To detect other objects you can train your own model and replace them. 
+We used opencv method "minCircle" to find the length of objects based on contours. You can modify this method to "minAreaRect" to get both length and width of objects.
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
