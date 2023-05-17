@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 import sys
 
-# global var
+# global variables
 root = os.path.join('static', 'root')
 weights_path = os.path.join(root, 'model', 'best.onnx')
 classes_path = os.path.join(root, 'model', 'coco.txt')
@@ -39,20 +39,20 @@ YELLOW = (0, 255, 255)
 # sub-functions
 # L3 functions
 def draw_label(im, label, x, y):
-    # Get text size.
+    # Gets text size.
     text_size = cv2.getTextSize(label, FONT_FACE, FONT_SCALE, THICKNESS)
     dim, baseline = text_size[0], text_size[1]
     cv2.putText(im, label, (x + 20, y + 20 + dim[1]), FONT_FACE, FONT_SCALE, YELLOW, THICKNESS, cv2.LINE_AA)
 
 
 def YOLO_pre(input_image):
-    # Create a 4D blob from a frame.
+    # Creates a 4D blob from a frame.
     blob = cv2.dnn.blobFromImage(input_image, 1 / 255, (INPUT_WIDTH, INPUT_HEIGHT), [0, 0, 0], 1, crop=False)
 
     # Sets the input to the network.
     net.setInput(blob)
 
-    # Run the forward pass to get output of the output layers.
+    # Runs the forward pass to get output of the output layers.
     outputs = net.forward(net.getUnconnectedOutLayersNames())
     return outputs
 
@@ -62,12 +62,12 @@ def YOLO_post(detections, r):
     # Lists to hold respective values while unwrapping.
     row = detections[0][0][r]
     confidence = row[4]
-    # Discard bad detections and continue.
+    # Discards bad detections and continues.
     if confidence >= CONFIDENCE_THRESHOLD:
         classes_scores = row[5:]
-        # Get the index of max class score.
+        # Gest the index of max class score.
         class_id = np.argmax(classes_scores)
-        #  Continue if the class score is above threshold.
+        #  Continues if the class score is above threshold.
         if (classes_scores[class_id] > SCORE_THRESHOLD):
             # centre point, not the original point
             cx, cy, w, h = row[0], row[1], row[2], row[3]  # return these values
