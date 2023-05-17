@@ -30,7 +30,7 @@ A Flask web application that automatically detects and measures Calanus in image
 </details>
 
 ## Description
-This project offers an AI-based solution to automatic Calanus detection and length estimation which lets users upload one or more images and a millimetre-to-pixel ratio and outputs get a list of all the lengths in millimetres in a text file for each image, as well as the corresponding detections and measurements visualised on the image. The system has been developed by training a [YOLOv5 model](https://github.com/ultralytics/yolov5) to recognise Calanus and using a variety of computer vision methods from OpenCV to estimate the length of the detected Calanus. The resulting tool has been integrated into a user-friendly web application based on Flask.
+This project offers an AI-based solution to automatic Calanus detection and length estimation which lets users upload one or more images and a millimetre-to-pixel ratio and outputs a list of all the detected lengths in millimetres in a text file for each image, as well as the corresponding detections and measurements visualised on the image. The system has been developed by training a [YOLOv5 model](https://github.com/ultralytics/yolov5) to recognise Calanus and using a variety of computer vision methods from OpenCV to estimate the length of the detected Calanus. The resulting tool has been integrated into a user-friendly web application based on Flask.
 
 ### Built With
 * [![Flask][Flask-image]][Flask-url]
