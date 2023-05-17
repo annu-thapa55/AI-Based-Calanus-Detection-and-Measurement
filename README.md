@@ -39,5 +39,7 @@ Length: pixel value times pixel_mm_ratio.
 Confidential score: From YOLO model, for user to exam.
 labelled image is the raw image with ID on each calanus, user can check the image and drop unwanted observations basing on ID.
 
+### Find Ratio 
+
 ## Customization
 Our model is Opencv format(.onnx). Weights and classes stored under the folder "model". To detect other objects you can train your own model and replace them. 
