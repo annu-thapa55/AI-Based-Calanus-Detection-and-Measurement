@@ -13,7 +13,7 @@ BACKEND_FOLDER = os.path.join('static', 'root')
 #Defining path for Flask's static folder 
 app = Flask (__name__, static_url_path= '/static')
 
-#Configuring UPLOAD_FOLDER 
+#Configuring upload folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #Configuring backend folder that contains backend relevant functionalities and files
