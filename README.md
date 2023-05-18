@@ -1,5 +1,5 @@
 # AI Based Calanus Detection and Measurement
-A Flask web application that automatically detects and measures Calanus in images with the use of object detection and other computer vision techniques..
+A Flask web application that automatically detects and measures Calanus in images with the use of object detection and other computer vision techniques.
 
 <!-- TABLE OF CONTENTS -->
 <details>
