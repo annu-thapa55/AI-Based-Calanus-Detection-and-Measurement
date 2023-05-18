@@ -105,6 +105,7 @@ ADD IMAGE OF RATIO PAGE WITH IMAGE AND POINTS
 
 ### Output
 The output after running the analysis is a zip folder. This folder will contain a text file (.txt) for every input image. In the text file, each detected and measured Calanus will be listed on a row with the following information:
+
 <i>ID,length_in_mm,confidence</i>
 
 Where ID is a unique identifier given to the object, length_in_mm is the estimated length converted to millimeters based on the provided ratio, and confidence is the confidence that the detected object is a Calanus. 
