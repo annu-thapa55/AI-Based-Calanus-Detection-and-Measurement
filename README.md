@@ -51,7 +51,7 @@ git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measure
 ```
 Or use https://download-directory.github.io/ to download it by entering the link to the GitHub project.
 
-2. Navigate to the location of the project on your system and install requirements.
+2. Navigate to the location of the requirements file on your system and install the requirements.
 ```
 cd PATH_TO_PROJECT
 pip install -r requirements.txt
@@ -60,7 +60,7 @@ pip install -r requirements.txt
 ## Usage
 ### Starting the Application
 There are multiple ways of starting the application.
-#### With RUN.cmd
+#### With RUN.cmd Script
 1. If you have Windows, you can double-click the provided RUN.cmd file to open the application.
 
 #### With Command Line
@@ -91,7 +91,7 @@ ADD IMAGE OF FRONT PAGE
 ADD IMAGE OF DOWNLOAD PAGE
 
 #### Find Ratio 
-If you do not know the ratio already, you can press the "Find Ratio". 
+If you do not know the ratio already, you can press the "Unknown Ratio". 
 Here, you can upload an image with a reference object of a known length in millimeters and compute the millimeter/pixel ratio.
 1. Upload an image with a reference object. 
 2. Place a point at the start of the object and another at the end of it.
@@ -105,7 +105,7 @@ ADD IMAGE OF RATIO PAGE WITH IMAGE AND POINTS
 ### Output
 The output after running the analysis is a zip folder. This folder will contain a text file (.txt) for every input image. In the text file, each detected and measured Calanus will be listed on a row with the following information:
 
-<i>ID,length_in_mm,confidence</i>
+<p align="center"><i>ID,length_in_mm,confidence</i></p>
 
 Where ID is a unique identifier given to the object, length_in_mm is the estimated length converted to millimeters based on the provided ratio, and confidence is the confidence that the detected object is a Calanus. 
 
