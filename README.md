@@ -84,7 +84,7 @@ http://127.0.0.1:5000
 3. Press the "Run" button and wait for the analysis to complete.
 4. Download your results.  
 
-If you want to test the application but do not have any images, you can find some sample images for analysis under sample-images:arrow_right:raw-images.
+If you want to test the application but do not have any images, you can find some sample images for analysis under sample-images&#10141;raw-images.
 ADD IMAGE OF FRONT PAGE 
 ADD IMAGE OF DOWNLOAD PAGE
 
