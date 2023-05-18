@@ -79,12 +79,10 @@ python app.py
 ```
 http://127.0.0.1:5000
 ```
-
-Write something about sample images 
-
-Add additional sections that demonstrate how to use the app, including images
 ### How to Use
 ...
+Demonstrate how to use the app, including images
+Write something about sample images 
 
 #### Find Ratio 
 
