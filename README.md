@@ -62,7 +62,7 @@ pip install -r requirements.txt
 ### Running the Application
 There are multiple ways of running the application.
 #### Using RUN.cmd
-If you have Windows, you can double-click the provided RUN.cmd file to open the application.
+1. If you have Windows, you can double-click the provided RUN.cmd file to open the application.
 
 Write something about sample images 
 
