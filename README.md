@@ -85,7 +85,9 @@ http://127.0.0.1:5000
 4. Download your results.  
 
 If you want to test the application but do not have any images, you can find some sample images for analysis under: 
+
 sample-images&#10141;raw-images.
+
 ADD IMAGE OF FRONT PAGE 
 ADD IMAGE OF DOWNLOAD PAGE
 
