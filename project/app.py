@@ -144,7 +144,6 @@ def calanusImageUpload():
             for filename in uploadFiles: 
                 filePath = os.path.join(uploadPath, filename)  
                 
-                #Check if images have a valid size
                 if validateImageSize(filePath):
                     valid += 1
 
