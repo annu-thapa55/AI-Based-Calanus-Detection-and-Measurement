@@ -88,11 +88,14 @@ add images
 Write something about sample images 
 
 #### Find Ratio 
-If you do not know the ratio already, you can press the "Find Ratio". Here, you can upload an image with a reference object of a known length in millimeters and compute the millimeter/pixel ratio.
+If you do not know the ratio already, you can press the "Find Ratio". 
+Here, you can upload an image with a reference object of a known length in millimeters and compute the millimeter/pixel ratio.
 1. Upload an image with a reference object. 
 2. Place a point at the start of the object and another at the end of it.
 3. Enter the known length in millimeters between the two points.
 4. When you are ready, press the "Calculate" button to find the ratio and go back to the home page where the ratio is saved.
+
+add image
 
 ### Output
 Include images
