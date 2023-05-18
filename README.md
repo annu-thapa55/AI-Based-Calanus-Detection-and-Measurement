@@ -84,7 +84,8 @@ http://127.0.0.1:5000
 3. Press the "Run" button and wait for the analysis to complete.
 4. Download your results.  
 
-If you want to test the application but do not have any images, you can find some sample images for analysis under sample-images&#10141;raw-images.
+If you want to test the application but do not have any images, you can find some sample images for analysis under: 
+sample-images&#10141;raw-images.
 ADD IMAGE OF FRONT PAGE 
 ADD IMAGE OF DOWNLOAD PAGE
 
@@ -96,7 +97,7 @@ Here, you can upload an image with a reference object of a known length in milli
 3. Enter the known length in millimeters between the two points.
 4. When you are ready, press the "Calculate" button to find the ratio and go back to the home page where the ratio is saved.
 
-Sample images with references objects have been provided in sample-images:arrow_right:ratio-images.
+Sample images with references objects have been provided in sample-images&#10141;ratio-images.
 
 ADD IMAGE OF RATIO PAGE WITH IMAGE AND POINTS 
 
