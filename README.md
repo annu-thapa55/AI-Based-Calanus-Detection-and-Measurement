@@ -104,14 +104,15 @@ Sample images with references objects have been provided in sample-images&#10141
 ADD IMAGE OF RATIO PAGE WITH IMAGE AND POINTS 
 
 ### Output
-Include images
+The output after running the analysis is a zip folder. This folder will contain a text file (.txt) for every input image. In the text file, each detected and measured Calanus will be listed on a row with the following information:
+<i>ID,length_in_mm,confidence</i>
 
-Each input image will have two outputs: one text file, one labelled image.
-Text file contains Three columns: ID, length(mm), confidential score
-ID: Order the integer start from 1. 
-Length: pixel value times pixel_mm_ratio.
-Confidential score: From YOLO model, for user to exam.
-labelled image is the raw image with ID on each calanus, user can check the image and drop unwanted observations basing on ID.
+Where ID is a unique identifier given to the object, length_in_mm is the estimated length converted to millimeters based on the provided ratio, and confidence is the confidence that the detected object is a Calanus. 
+
+Furthermore, the input image(s) is also provided in the zip with the length estimation visualised as enclosing circles around each detected Calanus, along with its ID. 
+
+ADD IMAGE
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [Flask-image]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
