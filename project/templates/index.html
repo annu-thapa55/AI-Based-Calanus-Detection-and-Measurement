@@ -39,6 +39,23 @@
                 font-weight: bold;
                 font-size: 25px;
             }
+            #loading {
+                border: 16px solid #f3f3f3;
+                border-top: 16px solid #89CFF0; 
+                border-radius: 50%;
+                width: 120px;
+                height: 120px;
+                animation: spin 2s linear infinite;
+                display: none;
+                position: absolute;
+                left: calc(50% - 60px);
+                top: calc(50% - 60px);
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
         </style>
     </head>
     <body>
@@ -50,7 +67,8 @@
                 </a>
             </div>
         </nav>
-        <div class="container">
+        <div id="loading"></div>
+        <div class="container" id="content">
             <div class="card shadow-sm p-3 mb-5 bg-white rounded">
             <div class="card-body">
             <h5 class="card-title">Calanus Detection and Size Estimation</h5>
@@ -73,7 +91,7 @@
                         <label for="formFileMultiple" class="form-label text-color">Select Image</label>
                         <input class="form-control" type="file" id="input_image" name= "rawCalanusImage" accept = ".jpg" multiple>
                     </div>
-                    <input class= "btn btn-primary" type="submit" name="submit" value="Run" onclick="saveRatio();"/>
+                    <input class= "btn btn-primary" type="submit" name="submit" value="Run" onclick="saveRatio();loading();"/>
                 </div>
             </form>
             </div>
@@ -95,6 +113,12 @@
             function saveRatio() {
                 var newRatio = document.getElementById("ratio").value;
                 localStorage.setItem("ratio", newRatio); // save in local storage
+            }
+
+            // display loader
+            function loading() {
+                document.getElementById("content").style.display = "none";
+                document.getElementById("loading").style.display = "block";
             }
         </script>
     </body>
