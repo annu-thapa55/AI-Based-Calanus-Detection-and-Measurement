@@ -26,7 +26,6 @@ A Flask web application that automatically detects and measures Calanus in image
         <li><a href="#how-to-use">How to Use</a></li>
         <li><a href="#output">Output</a></li>
       </ul>
-    <li><a href="#customization">Customization</a></li>
   </ol>
 </details>
 
@@ -46,7 +45,6 @@ This project offers an AI-based solution to automatic Calanus detection and leng
 ### Prerequisites
 * Python >= 3.9
 ### Installation 
-Cloning the repo, command for installing requirements if we have a requirements.txt file...
 1. Clone the repo if you have git.
 ```
 git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement.git
@@ -75,27 +73,47 @@ cd PATH_TO_PROJECT
 ```
 python app.py
 ```
-4. Open your browser and go to the local URL for the web app as specified below:
+4. Open your browser and go to the localhost URL for the web app as specified below:
 ```
 http://127.0.0.1:5000
 ```
 ### How to Use
-...
-Demonstrate how to use the app, including images
-Write something about sample images 
+1. Enter the known millimeter/pixel ratio of the images you plan to upload to the application. 
+2. Upload one or more images in JPG format.
+3. Press the "Run" button and wait for the analysis to complete.
+4. Download your results.  
+
+If you want to test the application but do not have any images, you can find some sample images for analysis under: 
+
+sample-images&#10141;raw-images.
+
+ADD IMAGE OF FRONT PAGE 
+ADD IMAGE OF DOWNLOAD PAGE
 
 #### Find Ratio 
+If you do not know the ratio already, you can press the "Find Ratio". 
+Here, you can upload an image with a reference object of a known length in millimeters and compute the millimeter/pixel ratio.
+1. Upload an image with a reference object. 
+2. Place a point at the start of the object and another at the end of it.
+3. Enter the known length in millimeters between the two points.
+4. When you are ready, press the "Calculate" button to find the ratio and go back to the home page where the ratio is saved.
 
+Sample images with references objects have been provided in sample-images&#10141;ratio-images.
+
+ADD IMAGE OF RATIO PAGE WITH IMAGE AND POINTS 
 
 ### Output
-Include images
+The output after running the analysis is a zip folder. This folder will contain a text file (.txt) for every input image. In the text file, each detected and measured Calanus will be listed on a row with the following information:
 
-Each input image will have two outputs: one text file, one labelled image.
-Text file contains Three columns: ID, length(mm), confidential score
-ID: Order the integer start from 1. 
-Length: pixel value times pixel_mm_ratio.
-Confidential score: From YOLO model, for user to exam.
-labelled image is the raw image with ID on each calanus, user can check the image and drop unwanted observations basing on ID.
+<i>ID,length_in_mm,confidence</i>
+
+Where ID is a unique identifier given to the object, length_in_mm is the estimated length converted to millimeters based on the provided ratio, and confidence is the confidence that the detected object is a Calanus. 
+
+Furthermore, the input image(s) is also provided in the zip with the length estimation visualised as enclosing circles around each detected Calanus, along with its ID. 
+
+<p align="center">
+<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/847db595-cbd7-41ed-a0b9-e7d8c1066b9b" width="500"/>
+</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [Flask-image]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
