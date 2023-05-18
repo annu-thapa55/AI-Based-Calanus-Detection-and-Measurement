@@ -46,7 +46,6 @@ This project offers an AI-based solution to automatic Calanus detection and leng
 ### Prerequisites
 * Python >= 3.9
 ### Installation 
-Cloning the repo, command for installing requirements if we have a requirements.txt file...
 1. Clone the repo if you have git.
 ```
 git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement.git
@@ -75,17 +74,25 @@ cd PATH_TO_PROJECT
 ```
 python app.py
 ```
-4. Open your browser and go to the local URL for the web app as specified below:
+4. Open your browser and go to the localhost URL for the web app as specified below:
 ```
 http://127.0.0.1:5000
 ```
 ### How to Use
-...
-Demonstrate how to use the app, including images
+1. Enter the known millimeter/pixel ratio of the images you plan to upload to the application. 
+2. Upload one or more images in JPG format.
+3. Press the "Run" button and wait for the analysis to complete.
+4. Download your results.  
+
+add images
 Write something about sample images 
 
 #### Find Ratio 
-
+If you do not know the ratio already, you can press the "Find Ratio". Here, you can upload an image with a reference object of a known length in millimeters and compute the millimeter/pixel ratio.
+1. Upload an image with a reference object. 
+2. Place a point at the start of the object and another at the end of it.
+3. Enter the known length in millimeters between the two points.
+4. When you are ready, press the "Calculate" button to find the ratio and go back to the home page where the ratio is saved.
 
 ### Output
 Include images
