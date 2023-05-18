@@ -43,7 +43,7 @@ This project offers an AI-based solution to automatic Calanus detection and leng
 
 ## Getting Started
 ### Requirements
-If packages need to be installed manually, they should be listed here...
+* Python >= 3.9
 ### Installation 
 Cloning the repo, command for installing requirements if we have a requirements.txt file...
 1. Clone the repo
