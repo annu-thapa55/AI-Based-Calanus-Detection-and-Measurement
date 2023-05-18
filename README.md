@@ -22,7 +22,8 @@ A Flask web application that automatically detects and measures Calanus in image
     </li>
     <li><a href="#usage">Usage</a></li>
       <ul>
-        <li><a href="#running-the-application">Running the Application</a></li>
+        <li><a href="#starting-the-application">Starting the Application</a></li>
+        <li><a href="#how-to-use">How to Use</a></li>
         <li><a href="#output">Output</a></li>
       </ul>
     <li><a href="#customization">Customization</a></li>
