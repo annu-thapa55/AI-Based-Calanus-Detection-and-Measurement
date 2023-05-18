@@ -46,14 +46,15 @@ This project offers an AI-based solution to automatic Calanus detection and leng
 * Python >= 3.9
 ### Installation 
 Cloning the repo, command for installing requirements if we have a requirements.txt file...
-1. Clone the repo
+1. Clone the repo if you have git.
 ```
 git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement.git
 ```
-Or use https://download-directory.github.io/ to download it.
+Or use https://download-directory.github.io/ to download it by entering the link to the GitHub project.
 
-2. Install requirements
+2. Navigate to location of project and install requirements.
 ```
+cd PATH_TO_PROJECT
 pip install -r requirements.txt
 ```
 
