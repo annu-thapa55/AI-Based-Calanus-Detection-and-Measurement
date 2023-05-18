@@ -11,10 +11,6 @@ UPLOAD_FOLDER = os.path.join('static/root', 'raw')
 #Defining path for files related to backend
 BACKEND_FOLDER = os.path.join('static', 'root')
 
-#Defining allowed image extensions
-ALLOWED_EXTENSIONS = {'jpg'}
-
-
 #Defining path for Flask's static folder 
 app = Flask (__name__, static_url_path= '/static')
 
