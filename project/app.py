@@ -55,7 +55,7 @@ def validateImageSize(imgFile):
     
     return True
 
-#function deletes the contents of "raw", "result", "split" folders and "Results.zip" file
+#function deletes the contents of "raw", "result" folders and "Results.zip" file
 def clearFolders():
     rawPath= os.path.join(app.config['BACKEND_FOLDER'], 'raw')
     resultPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
@@ -105,7 +105,7 @@ def homepage():
 def calanusImageUpload():
     if request.method == 'POST':
         #Functionality of "Find Ratio" button
-        if request.form['submit'] =='Find Ratio':
+        if request.form['submit'] =='Unknown Ratio':
             return render_template('ratio.html')
         
         #Functionality of "Run" button
