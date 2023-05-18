@@ -61,8 +61,23 @@ pip install -r requirements.txt
 ## Usage
 ### Running the Application
 There are multiple ways of running the application.
-#### Using RUN.cmd
+#### With RUN.cmd
 1. If you have Windows, you can double-click the provided RUN.cmd file to open the application.
+
+#### With Command Line
+1. Open the command line interface.
+2. Navigate to the folder containing the app.py file.
+```
+cd PATH_TO_PROJECT
+```
+3. Enter the following command:
+```
+python app.py
+```
+4. Open your browser and go to the local URL for the web app as specified below:
+```
+http://127.0.0.1:5000
+```
 
 Write something about sample images 
 
