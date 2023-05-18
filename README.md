@@ -42,7 +42,7 @@ This project offers an AI-based solution to automatic Calanus detection and leng
 * A speed of 1.32 images per minute for very high resolution images
 
 ## Getting Started
-### Requirements
+### Prerequisites
 * Python >= 3.9
 ### Installation 
 Cloning the repo, command for installing requirements if we have a requirements.txt file...
