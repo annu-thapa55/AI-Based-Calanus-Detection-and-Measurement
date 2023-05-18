@@ -97,11 +97,6 @@ Length: pixel value times pixel_mm_ratio.
 Confidential score: From YOLO model, for user to exam.
 labelled image is the raw image with ID on each calanus, user can check the image and drop unwanted observations basing on ID.
 
-## Customization
-Our model is Opencv format(.onnx). Weights and classes stored under the folder "model". To detect other objects you can train your own model and replace them. 
-We used opencv method "minCircle" to find the length of objects based on contours. You can modify this method to "minAreaRect" to get both length and width of objects.
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 [Flask-image]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
 [Flask-url]: https://flask.palletsprojects.com/
