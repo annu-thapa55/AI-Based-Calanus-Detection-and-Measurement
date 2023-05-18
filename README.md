@@ -59,8 +59,8 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-### Running the Application
-There are multiple ways of running the application.
+### Starting the Application
+There are multiple ways of starting the application.
 #### With RUN.cmd
 1. If you have Windows, you can double-click the provided RUN.cmd file to open the application.
 
@@ -82,6 +82,11 @@ http://127.0.0.1:5000
 Write something about sample images 
 
 Add additional sections that demonstrate how to use the app, including images
+### How to Use
+...
+
+#### Find Ratio 
+
 
 ### Output
 Include images
@@ -92,8 +97,6 @@ ID: Order the integer start from 1.
 Length: pixel value times pixel_mm_ratio.
 Confidential score: From YOLO model, for user to exam.
 labelled image is the raw image with ID on each calanus, user can check the image and drop unwanted observations basing on ID.
-
-### Find Ratio 
 
 ## Customization
 Our model is Opencv format(.onnx). Weights and classes stored under the folder "model". To detect other objects you can train your own model and replace them. 
