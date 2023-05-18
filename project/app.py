@@ -139,19 +139,16 @@ def calanusImageUpload():
             #Validate image size 
             uploadPath = app.config['UPLOAD_FOLDER']
             uploadFiles = [file for file in os.listdir(uploadPath)]
-            validatedFiles = []
+            valid = 0
 
             for filename in uploadFiles: 
                 filePath = os.path.join(uploadPath, filename)  
                 
                 if validateImageSize(filePath):
-                    validatedFiles.append(filePath)
+                    valid += 1
 
-            #Remove images that were not validated
-            for filename in uploadFiles:
-                filePath = os.path.join(uploadPath, filename)
-
-                if filePath not in validatedFiles:
+                #Remove invalid files
+                else:
                     try:
                         if os.path.isfile(filePath):
                             os.remove(filePath)  
@@ -160,7 +157,7 @@ def calanusImageUpload():
                         print(f"Error deleting {filePath}: {e}")
 
             #If no valid images, do nothing
-            if len(validatedFiles) == 0:
+            if valid == 0:
                 flash('Image width and height must be larger than 2400 pixels')
                 return render_template('index.html')
 
