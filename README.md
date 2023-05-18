@@ -112,7 +112,7 @@ Where ID is a unique identifier given to the object, length_in_mm is the estimat
 
 Furthermore, the input image(s) is also provided in the zip with the length estimation visualised as enclosing circles around each detected Calanus, along with its ID. 
 
-ADD IMAGE
+![calanus_example](https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/847db595-cbd7-41ed-a0b9-e7d8c1066b9b)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
