@@ -53,7 +53,7 @@ git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measure
 ```
 Or use https://download-directory.github.io/ to download it by entering the link to the GitHub project.
 
-2. Navigate to location of project and install requirements.
+2. Navigate to the location of the project or your system and install requirements.
 ```
 cd PATH_TO_PROJECT
 pip install -r requirements.txt
