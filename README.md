@@ -88,7 +88,7 @@ If you want to test the application but do not have any images, you can find som
 sample-images&#10141;raw-images.
 
 <p align="center">
-<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/847db595-cbd7-41ed-a0b9-e7d8c1066b9b" width="500"/>
+<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/6c1964eb-1672-4aa5-8869-9060c430b88c" width="500"/>
 </p>
 
 #### Find Ratio 
