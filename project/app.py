@@ -1,5 +1,6 @@
 #packages
 import cv2
+from datetime import date
 from flask import Flask, render_template, request, send_file, flash
 import os, shutil
 import subprocess
@@ -39,7 +40,7 @@ def validateRatio(ratio):
     except ValueError:
         return False
 
-    
+#function validates input image size    
 def validateImageSize(imgFile):
     img = cv2.imread(imgFile) 
     
@@ -50,6 +51,12 @@ def validateImageSize(imgFile):
         return False
     
     return True
+
+#function generates a filename for the results zip
+def generateFilename():
+    resultsDate = date.today().strftime('%d_%m_%Y')
+    filename = 'results_' + resultsDate + '.zip'
+    return filename
 
 #function deletes the contents of "raw", "result" folders and "Results.zip" file
 def clearFolders():
@@ -65,7 +72,7 @@ def clearFolders():
             elif os.path.isdir(filePath):  
                  shutil.rmtree(filePath)    
         except Exception as e:  
-            print(f"Error deleting {filePath}: {e}")
+            print(f'Error deleting {filePath}: {e}')
     
     #deleting contents of "result" folder
     for filename in os.listdir(resultPath): 
@@ -76,28 +83,28 @@ def clearFolders():
             elif os.path.isdir(filePath):  
                  shutil.rmtree(filePath)   
         except Exception as e:  
-            print(f"Error deleting {filePath}: {e}")
+            print(f'Error deleting {filePath}: {e}')
 
     
-    #deleting Results.zip 
-    zipPath = "Results.zip"
+    #deleting tmp.zip 
+    zipPath = os.path.join(app.config['BACKEND_FOLDER'], 'download/tmp.zip')
     try:
         if os.path.isfile(zipPath):
             os.remove(zipPath)  
         elif os.path.isdir(zipPath):  
             shutil.rmtree(zipPath)  
     except Exception as e:  
-        print(f"Error deleting {filePath}: {e}")
+        print(f'Error deleting {filePath}: {e}')
 
 
 #decorator for Homepage
-@app.route("/", methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def homepage():
     clearFolders()
     return render_template('index.html')
 
 #decorator for uploading calanus image and performing detection and measurement  
-@app.route("/calanusImageUpload", methods=['GET', 'POST'])
+@app.route('/calanusImageUpload', methods=['GET', 'POST'])
 def calanusImageUpload():
     if request.method == 'POST':
         #Functionality of "Find Ratio" button
@@ -108,7 +115,7 @@ def calanusImageUpload():
         elif request.form['submit'] =='Run':
 
             #Getting list of uploaded files
-            uploadedRawImgs = request.files.getlist("rawCalanusImage")
+            uploadedRawImgs = request.files.getlist('rawCalanusImage')
 
             #Iterating through each file in the file list and saving them in "raw" folder
 
@@ -150,7 +157,7 @@ def calanusImageUpload():
                             os.remove(filePath)  
                             
                     except Exception as e:  
-                        print(f"Error deleting {filePath}: {e}")
+                        print(f'Error deleting {filePath}: {e}')
 
             #If no valid images, do nothing
             if valid == 0:
@@ -160,24 +167,24 @@ def calanusImageUpload():
 
             #Running Backend functionalities by running main.py and passing calculatedRatio value to main.py
             backend_path = os.path.join(app.config['BACKEND_FOLDER'], 'main.py')
-            subprocess.run(["python", backend_path, calculatedRatio])  
+            subprocess.run(['python', backend_path, calculatedRatio])  
             return render_template('downloadResult.html')
          
         else:
             return render_template('index.html')
 
 #decorator for calculating ratio with reference object
-@app.route ("/calculateRatio", methods= ['POST'])
+@app.route ('/calculateRatio', methods= ['POST'])
 def calculateRatio():
     return render_template('ratio.html') 
-
 
 @app.route('/downloadResult', methods =['GET', 'POST'])
 #decorator for downloading result files
 def downloadResult():
-    downloadPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
-    zipResult = shutil.make_archive('Results', 'zip', downloadPath)
-    return send_file(zipResult,as_attachment=True,download_name='results.zip')
+    resultPath = os.path.join(app.config['BACKEND_FOLDER'], 'result')
+    downloadPath = os.path.join(app.config['BACKEND_FOLDER'], 'download/tmp')
+    zipResult = shutil.make_archive(downloadPath, 'zip', resultPath)
+    return send_file(zipResult,as_attachment=True,download_name=generateFilename())
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run()
