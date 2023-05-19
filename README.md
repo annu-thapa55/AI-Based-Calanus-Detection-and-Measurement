@@ -88,7 +88,7 @@ If you want to test the application but do not have any images, you can find som
 sample-images&#10141;raw-images.
 
 <p align="center">
-<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/6c1964eb-1672-4aa5-8869-9060c430b88c" width="500"/>
+<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/6c1964eb-1672-4aa5-8869-9060c430b88c" width="700"/>
 </p>
 
 #### Find Ratio 
@@ -101,7 +101,9 @@ Here, you can upload an image with a reference object of a known length in milli
 
 Sample images with references objects have been provided in sample-images&#10141;ratio-images.
 
-ADD IMAGE OF RATIO PAGE WITH IMAGE AND POINTS 
+<p align="center">
+<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/149cb2f5-257c-42b7-b96f-8eef1ef972ae" width="700"/>
+</p>
 
 ### Output
 The output after running the analysis is a zip folder. This folder will contain a text file (.txt) for every input image. In the text file, each detected and measured Calanus will be listed on a row with the following information:
