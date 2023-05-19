@@ -63,7 +63,7 @@ pip install -r requirements.txt
 ### Starting the Application
 There are multiple ways of starting the application.
 #### With RUN.cmd Script
-1. If you have Windows, you can double-click the provided RUN.cmd file to open the application.
+1. If you have Windows, and your security settings permit it, you can double-click the provided RUN.cmd file to open the application.
 
 #### With Command Line
 1. Open the command line interface.
