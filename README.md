@@ -30,7 +30,9 @@ A Flask web application that automatically detects and measures Calanus in image
 </details>
 
 ## Description
-This project offers an AI-based solution to automatic Calanus detection and length estimation which lets users upload one or more images and a millimetre-to-pixel ratio and outputs a list of all the detected lengths in millimetres in a text file for each image, as well as the corresponding detections and measurements visualised on the image. The system has been developed by training a [YOLOv5 model](https://github.com/ultralytics/yolov5) to recognise Calanus and using a variety of computer vision methods from OpenCV to estimate the length of the detected Calanus. The  The resulting tool has been integrated into a user-friendly web application based on Flask.
+This project offers an AI-based solution to automatic Calanus detection and length estimation which lets users upload one or more images and a millimetre-to-pixel ratio and outputs a list of all the detected lengths in millimetres in a text file for each image, as well as the corresponding detections and measurements visualised on the image. The system has been developed by training a [YOLOv5s model](https://github.com/ultralytics/yolov5) to recognise Calanus and using a variety of computer vision methods from OpenCV to estimate the length of the detected Calanus. The resulting tool has been integrated into a user-friendly web application based on Flask.
+
+Information about the training process can be found [here](https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/blob/main/yolov5/yolov5s_training.ipynb).
 
 ### Built With
 * [![Flask][Flask-image]][Flask-url]
@@ -83,8 +85,7 @@ http://127.0.0.1:5000
 3. Press the "Run" button and wait for the analysis to complete.
 4. Download your results.  
 
-If you want to test the application but do not have any images, you can find some sample images for analysis 
-[here](https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/tree/main/sample-images/raw-images).
+If you want to test the application but do not have any images, you can find some sample images for analysis [here](https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/tree/main/sample-images/raw-images).
 
 <p align="center">
 <img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/0105e3e7-b354-46b5-a6d5-209a933d6628" width="700"/>
