@@ -45,7 +45,7 @@ Information about the training process can be found [here](https://github.com/an
 
 ## Getting Started
 ### Prerequisites
-* Python >= 3.9
+* [Python >= 3.9](https://www.python.org/downloads/)
 ### Installation 
 1. Clone the repo if you have git.
 ```
