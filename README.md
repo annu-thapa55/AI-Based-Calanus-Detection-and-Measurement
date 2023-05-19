@@ -51,7 +51,7 @@ Information about the training process can be found [here](https://github.com/an
 ```
 git clone https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement.git
 ```
-Or use https://download-directory.github.io/ to download it by entering the link to the GitHub project.
+Or press Code➝Download ZIP.
 
 2. Navigate to the location of the requirements file on your system and install the requirements.
 ```
