@@ -87,8 +87,9 @@ If you want to test the application but do not have any images, you can find som
 
 sample-images&#10141;raw-images.
 
-ADD IMAGE OF FRONT PAGE 
-ADD IMAGE OF DOWNLOAD PAGE
+<p align="center">
+<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/847db595-cbd7-41ed-a0b9-e7d8c1066b9b" width="500"/>
+</p>
 
 #### Find Ratio 
 If you do not know the ratio already, you can press the "Unknown Ratio". 
