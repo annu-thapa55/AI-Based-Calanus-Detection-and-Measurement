@@ -102,7 +102,7 @@ Here, you can upload an image with a reference object of a known length in milli
 Sample images with references objects have been provided in sample-images&#10141;ratio-images.
 
 <p align="center">
-<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/149cb2f5-257c-42b7-b96f-8eef1ef972ae" width="700"/>
+<img src="https://github.com/annu-thapa55/AI-Based-Calanus-Detection-and-Measurement/assets/41973043/3348f57a-3057-4957-ad64-13bbba31ad5a" width="700"/>
 </p>
 
 ### Output
