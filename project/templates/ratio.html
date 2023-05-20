@@ -102,7 +102,7 @@
                     <input class="form-control" type="file" id="inputImage" accept = "image/*">
                   </div>
                 <div class="form-floating mb-3">
-                    <input style= "padding-bottom: 1px" type="number" class="form-control" id="knownLength" placeholder="10">
+                    <input style= "padding-bottom: 1px" type="number" step="0.1" min="0.1" class="form-control" id="knownLength" placeholder="10">
                     <label class="text-color" for="knownLength">Known length (mm)</label>
                 </div>
                 <br>
@@ -232,14 +232,21 @@
             }
 
             function findRatio() {
+                var errorCount = 0;
+
                 // extract known length in mm from input field
                 var knownLength = document.getElementById("knownLength").value;
-                knownLength = knownLength.replace(/\s/g,""); // remove any whitespace
-                var errorCount = 0;
-                
-                // check if field is empty or if value is not a number
-                if (knownLength.length == 0 || isNaN(knownLength)) {
+                console.log(knownLength);
+
+                // check if field is empty
+                if (knownLength.length <= 0) {
                     alert("Enter known length in mm.");
+                    errorCount++;
+                }
+
+                // check if smaller than or equal to zero
+                if (knownLength <= 0) {
+                    alert("Known length must be larger than 0.");
                     errorCount++;
                 }
 
