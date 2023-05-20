@@ -26,15 +26,17 @@ app.secret_key = 'calanus'
 
 #function validates ratio input
 def validateRatio(ratio):
-    ratio = ratio.strip()
-
     #check if empty
     if ratio == '':
         return False 
     
     #try converting to float
     try:
-        float(ratio)
+        ratio = float(ratio)
+
+        if ratio == 0:
+            return False
+        
         return True
     
     except ValueError:
@@ -136,7 +138,7 @@ def calanusImageUpload():
 
             #Check if ratio has been provided
             if not validateRatio(calculatedRatio):
-                flash('Ratio must be a number')
+                flash('Invalid ratio')
                 return render_template('index.html')
 
             #Validate image size 
