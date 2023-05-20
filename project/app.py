@@ -34,7 +34,7 @@ def validateRatio(ratio):
     try:
         ratio = float(ratio)
 
-        if ratio == 0:
+        if ratio <= 0:
             return False
         
         return True
